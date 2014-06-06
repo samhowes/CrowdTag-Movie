@@ -1,21 +1,14 @@
-namespace CrowdTagMovie.Migrations
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Data.Entity;
+using CrowdTagMovie.Models;
+
+namespace CrowdTagMovie.DAL
 {
-    using System;
-	using System.Collections;
-	using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-	using CrowdTagMovie.Models;
-	using CrowdTagMovie.DAL;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<MovieContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = false;
-        }
-
+	public class MovieInitializer : DropCreateDatabaseAlways<MovieContext>
+	{
 		protected override void Seed(MovieContext context)
 		{
 			var now = DateTime.Now;
@@ -32,10 +25,16 @@ namespace CrowdTagMovie.Migrations
 			};
 			foreach (var movie in movies)
 			{
-				context.Movies.AddOrUpdate(movie);
+				context.Movies.Add(movie);
 				context.SaveChanges();
 			}
 			//context.SaveChanges();
 		}
-    }
+	}
 }
+
+/*
+ * new Movie{Title="",Director="", ReleaseDate=DateTime.Parse(""),DateAdded=DateTime.Parse(""), Description=""}
+ */
+
+
