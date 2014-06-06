@@ -12,15 +12,44 @@ using CrowdTagMovie.DAL;
 
 namespace CrowdTagMovie.Controllers
 {
+	internal sealed class SortStrings
+	{
+		public const string TitleDescend	= "Title_desc";
+		public const string TitleAscend		= "";
+		public const string ReleaseDescend	= "Release_desc";
+		public const string ReleaseAscend	= "Release";
+	}
+
     public class MovieController : Controller
     {
         private MovieContext db = new MovieContext();
 
         // GET: /Movie/
 		[AllowAnonymous]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder)
         {
-            return View(await db.Movies.ToListAsync());
+			ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? SortStrings.TitleDescend : SortStrings.TitleAscend;
+			ViewBag.ReleaseSortParm = sortOrder == SortStrings.ReleaseAscend ? SortStrings.ReleaseDescend : SortStrings.ReleaseAscend;
+
+			var moviesQuery = from m in db.Movies
+							  select m;
+			
+			switch (sortOrder)
+			{
+				case SortStrings.TitleDescend:
+					moviesQuery = moviesQuery.OrderByDescending(m => m.Title);
+					break;
+				case SortStrings.ReleaseAscend:
+					moviesQuery = moviesQuery.OrderBy(m => m.ReleaseDate);
+					break;
+				case SortStrings.ReleaseDescend:
+					moviesQuery = moviesQuery.OrderByDescending(m => m.ReleaseDate);
+					break;
+				default:
+					moviesQuery = moviesQuery.OrderBy(m => m.Title);
+					break;
+			}
+            return View(await moviesQuery.ToListAsync());
         }
 
         // GET: /Movie/Details/5
