@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using CrowdTagMovie.Models;
 using CrowdTagMovie.DAL;
 
@@ -26,14 +27,34 @@ namespace CrowdTagMovie.Controllers
 
         // GET: /Movie/
 		[AllowAnonymous]
-        public async Task<ActionResult> Index(string sortOrder)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+			ViewBag.CurrentSort = sortOrder;
 			ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? SortStrings.TitleDescend : SortStrings.TitleAscend;
 			ViewBag.ReleaseSortParm = sortOrder == SortStrings.ReleaseAscend ? SortStrings.ReleaseDescend : SortStrings.ReleaseAscend;
 
 			var moviesQuery = from m in db.Movies
 							  select m;
 			
+			if (searchString != null)
+			{
+				page = 1;
+			}
+			else
+			{
+				searchString = currentFilter;
+			}
+
+			ViewBag.CurrentFilter = searchString;
+
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				moviesQuery = moviesQuery.Where(m => 
+					m.Title.ToUpper().Contains(searchString.ToUpper()) ||
+					m.Director.ToUpper().Contains(searchString.ToUpper())
+					);
+			}
+
 			switch (sortOrder)
 			{
 				case SortStrings.TitleDescend:
@@ -49,7 +70,19 @@ namespace CrowdTagMovie.Controllers
 					moviesQuery = moviesQuery.OrderBy(m => m.Title);
 					break;
 			}
-            return View(await moviesQuery.ToListAsync());
+
+			int pageSize = 4;
+			int pageNumber = (page ?? 1);
+			/*Func<IPagedList> viewArg = () => 
+			{
+				
+			};*/
+
+			return View(await Task.Run<IPagedList>(
+				() =>
+				{
+					return moviesQuery.ToPagedList(pageNumber, pageSize);
+				}));
         }
 
         // GET: /Movie/Details/5
