@@ -23,7 +23,7 @@ namespace CrowdTagMovie.DAL
 		public virtual async Task<IEnumerable<TEntity>> GetAsync(
 			Expression<Func<TEntity, bool>> filter = null,
 			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-			string includeProperties = "")
+			params Expression<Func<TEntity, object>>[] includeExpressions)
 		{
 			IQueryable<TEntity> query = dbSet;
 
@@ -32,11 +32,21 @@ namespace CrowdTagMovie.DAL
 				query = query.Where(filter);
 			}
 
-			foreach (var includeProperty in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+			/* from: http://www.appetere.com/Blogs/SteveM/May-2012/Passing-Include-statements-into-a-Repository
+			public IQueryable<Order> GetAll(params Expression<Func<Order, object>>[] includeExpressions)
 			{
-				query = query.Include(includeProperty);
+			  return includeExpressions.Aggregate<Expression<Func<Movie, object>>, IQueryable<Movie>>
+			   (_context.Orders, (current, expression) => current.Include(expression));
 			}
 
+			*/
+
+			// TODO: Test this section!
+			if (includeExpressions.Any())
+			{
+				query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
+			}
+ 
 			if (orderBy != null)
 			{
 				return await orderBy(query).ToListAsync();
