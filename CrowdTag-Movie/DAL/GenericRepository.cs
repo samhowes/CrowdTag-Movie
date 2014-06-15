@@ -6,23 +6,35 @@ using System.Data.Entity;
 using CrowdTagMovie.Models;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using PagedList;
 
 namespace CrowdTagMovie.DAL
 {
-	public class GenericRepository<TEntity> where TEntity : class
+	public class GenericPagedRepository<TEntity> where TEntity : class
 	{
 		internal MovieContext context;
 		internal DbSet<TEntity> dbSet;
 
-		public GenericRepository(MovieContext context)
+		protected int pageSize;
+		protected int pageNumber;
+
+		// Bookmark!
+		public void SetPaging(int pageSize, int pageNumber)
+		{
+			this.pageSize = pageSize;
+			this.pageNumber = pageNumber;
+		}
+
+		public GenericPagedRepository(MovieContext context)
 		{
 			this.context = context;
 			this.dbSet = context.Set<TEntity>();
+			SetPaging(4, 1);
 		}
 
-		public virtual async Task<IEnumerable<TEntity>> GetAsync(
+		public virtual async Task<IPagedList> GetAsync(
+			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderByFunc,
 			Expression<Func<TEntity, bool>> filter = null,
-			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
 			params Expression<Func<TEntity, object>>[] includeExpressions)
 		{
 			IQueryable<TEntity> query = dbSet;
@@ -46,15 +58,13 @@ namespace CrowdTagMovie.DAL
 			{
 				query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
 			}
- 
-			if (orderBy != null)
-			{
-				return await orderBy(query).ToListAsync();
-			}
-			else
-			{
-				return await query.ToListAsync();
-			}
+
+			query = orderByFunc(query);
+
+			return await Task.Run<IPagedList>(() =>
+				{
+					return query.ToPagedList(this.pageNumber, this.pageSize);
+				});
 
 		}
 	}

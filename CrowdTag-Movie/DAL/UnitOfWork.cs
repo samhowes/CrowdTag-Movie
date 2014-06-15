@@ -9,15 +9,15 @@ namespace CrowdTagMovie.DAL
 	public class UnitOfWork : IDisposable
 	{
 		private MovieContext dbContext = new MovieContext();
-		private GenericRepository<Movie> movieRepository;
+		private GenericPagedRepository<Movie> movieRepository;
 
-		public GenericRepository<Movie> MovieRepository
+		public GenericPagedRepository<Movie> MovieRepository
 		{
 			get
 			{
 				if (this.movieRepository == null)
 				{
-					this.movieRepository = new GenericRepository<Movie>(dbContext);
+					this.movieRepository = new GenericPagedRepository<Movie>(dbContext);
 				}
 				return this.movieRepository;
 			}

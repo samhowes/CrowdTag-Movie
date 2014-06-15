@@ -85,8 +85,8 @@ namespace CrowdTagMovie.Controllers
 					return moviesQuery.ToPagedList(pageNumber, pageSize);
 				})); */
 
-			var movies = await unitOfWork.MovieRepository.GetAsync(searchFunc, orderByFunc);
-			return View(movies.ToPagedList(pageNumber, pageSize));
+			//var movies = await unitOfWork.MovieRepository.GetAsync(searchFunc, orderByFunc);
+			return View(await unitOfWork.MovieRepository.GetAsync(orderByFunc, searchFunc));
         }
 
         // GET: /Movie/Details/5
