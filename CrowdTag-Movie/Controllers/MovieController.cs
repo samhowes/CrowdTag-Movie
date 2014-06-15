@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq.Expressions;
 using PagedList;
 using CrowdTagMovie.Models;
 using CrowdTagMovie.DAL;
@@ -23,7 +24,7 @@ namespace CrowdTagMovie.Controllers
 
     public class MovieController : Controller
     {
-        private MovieContext db = new MovieContext();
+		private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: /Movie/
 		[AllowAnonymous]
@@ -32,9 +33,7 @@ namespace CrowdTagMovie.Controllers
 			ViewBag.CurrentSort = sortOrder;
 			ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? SortStrings.TitleDescend : SortStrings.TitleAscend;
 			ViewBag.ReleaseSortParm = sortOrder == SortStrings.ReleaseAscend ? SortStrings.ReleaseDescend : SortStrings.ReleaseAscend;
-
-			var moviesQuery = from m in db.Movies
-							  select m;
+			
 			
 			if (searchString != null)
 			{
@@ -47,49 +46,56 @@ namespace CrowdTagMovie.Controllers
 
 			ViewBag.CurrentFilter = searchString;
 
+
+			Expression<Func<Movie,bool>> searchFunc = null;
+			Func<IQueryable<Movie>, IOrderedQueryable<Movie>> orderByFunc = null;
+			int pageSize = 4;
+			int pageNumber = (page ?? 1);
+
 			if (!String.IsNullOrEmpty(searchString))
 			{
-				moviesQuery = moviesQuery.Where(m => 
+				/*moviesQuery = moviesQuery.Where(m => 
 					m.Title.ToUpper().Contains(searchString.ToUpper()) ||
 					m.Director.ToUpper().Contains(searchString.ToUpper())
-					);
+					);*/
+
+				searchFunc = m => m.Title.ToUpper().Contains(searchString.ToUpper())
+												|| m.Director.ToUpper().Contains(searchString.ToUpper());
 			}
 
 			switch (sortOrder)
 			{
 				case SortStrings.TitleDescend:
-					moviesQuery = moviesQuery.OrderByDescending(m => m.Title);
+					orderByFunc = m => m.OrderByDescending(movie => movie.Title);
 					break;
 				case SortStrings.ReleaseAscend:
-					moviesQuery = moviesQuery.OrderBy(m => m.ReleaseDate);
+					orderByFunc = m => m.OrderBy(movie => movie.ReleaseDate);
 					break;
 				case SortStrings.ReleaseDescend:
-					moviesQuery = moviesQuery.OrderByDescending(m => m.ReleaseDate);
+					orderByFunc = m => m.OrderByDescending(movie => movie.ReleaseDate);
 					break;
 				default:
-					moviesQuery = moviesQuery.OrderBy(m => m.Title);
+					orderByFunc = m => m.OrderBy(movie => movie.Title);
 					break;
 			}
 
-			int pageSize = 4;
-			int pageNumber = (page ?? 1);
-			/*Func<IPagedList> viewArg = () => 
-			{
-				
-			};*/
-
-			return View(await Task.Run<IPagedList>(
+			/*return View(await Task.Run<IPagedList>(
 				() =>
 				{
 					return moviesQuery.ToPagedList(pageNumber, pageSize);
-				}));
+				})); */
+
+			var movies = await unitOfWork.MovieRepository.GetAsync(searchFunc, orderByFunc);
+			return View(movies.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: /Movie/Details/5
 		[AllowAnonymous]
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+			var movie = new Movie();
+			/*
+			if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -97,10 +103,10 @@ namespace CrowdTagMovie.Controllers
             if (movie == null)
             {
                 return HttpNotFound();
-            }
+            }*/
             return View(movie);
         }
-
+		/*
         // GET: /Movie/Create
         public ActionResult Create()
         {
@@ -116,7 +122,7 @@ namespace CrowdTagMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Movies.Add(movie);
+				db.Movies.Add(movie);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -169,6 +175,7 @@ namespace CrowdTagMovie.Controllers
             }
             return View(movie);
         }
+		
 
         // POST: /Movie/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -181,11 +188,12 @@ namespace CrowdTagMovie.Controllers
             return RedirectToAction("Index");
         }
 
+		 */
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+				unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
