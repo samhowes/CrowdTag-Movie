@@ -18,18 +18,26 @@ namespace CrowdTagMovie.DAL
 		protected int pageSize;
 		protected int pageNumber;
 
-		// Bookmark!
-		public void SetPaging(int pageSize, int pageNumber)
+		public void SetPaging(int pageNumber, int pageSize)
 		{
 			this.pageSize = pageSize;
 			this.pageNumber = pageNumber;
 		}
 
-		public GenericPagedRepository(MovieContext context)
+		public GenericPagedRepository(MovieContext context, int pageNumber = 1, int pageSize = 1)
 		{
 			this.context = context;
 			this.dbSet = context.Set<TEntity>();
-			SetPaging(4, 1);
+			SetPaging(pageNumber, pageSize);
+		}
+
+		private async Task<IPagedList> QueryToPagedListAsync(IQueryable<TEntity> query)
+		{
+			return await Task.Run<IPagedList>(
+				() =>
+				{
+					return query.ToPagedList(this.pageNumber, this.pageSize);
+				});
 		}
 
 		public virtual async Task<IPagedList> GetAsync(
@@ -61,11 +69,8 @@ namespace CrowdTagMovie.DAL
 
 			query = orderByFunc(query);
 
-			return await Task.Run<IPagedList>(() =>
-				{
-					return query.ToPagedList(this.pageNumber, this.pageSize);
-				});
-
+			return await QueryToPagedListAsync(query);
 		}
+
 	}
 }
