@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<CrowdTagMovie.Models.Movie>
+﻿@model IEnumerable<CrowdTagMovie.Models.Movie>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -43,7 +43,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.DateAdded)
+            @Html.DisplayFor(modelItem => item.CreatedDateTime)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
@@ -58,14 +58,14 @@
             @Html.DisplayFor(modelItem => item.Director)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MovieID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MovieID }) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
         </td>
     </tr>
 }
 
 </table>
 <br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("Index",
-	new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+	new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@

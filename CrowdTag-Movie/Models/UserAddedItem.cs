@@ -13,7 +13,7 @@ namespace CrowdTagMovie.Models
 
 		[Required]
 		[ForeignKey("Submitter")]
-		[MinLength(ModelConstant.StringLength.GUID), MaxLength(ModelConstant.StringLength.GUID)]
+		[MaxLength(ModelConstant.StringLength.GUID)]
 		public String SubmitterID { get; set; }
 
 
@@ -21,7 +21,7 @@ namespace CrowdTagMovie.Models
 		[DataType(DataType.Date), DisplayFormat(DataFormatString=ModelConstant.FormatString.Date, ApplyFormatInEditMode = true)]
 		public DateTime? CreatedDateTime { get; set; }
 
-		[Required]
+		
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = ModelConstant.FormatString.Date, ApplyFormatInEditMode = true)]
 		public DateTime? UpdatedDateTime { get; set; }
 

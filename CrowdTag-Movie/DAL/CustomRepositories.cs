@@ -5,8 +5,10 @@ using CrowdTagMovie.Models;
 
 namespace CrowdTagMovie.DAL
 {
-	public class UserAddedItemRepository : PagedRepository<UserAddedItem>
+	public class UserAddedItemRepository : Repository<UserAddedItem>
 	{
+		public UserAddedItemRepository() : base() { }
+
 		public override void Add(UserAddedItem newEntity)
 		{
 			newEntity.CreatedDateTime = DateTime.Now;
@@ -20,7 +22,7 @@ namespace CrowdTagMovie.DAL
 		}
 	}
 
-	public class UserRepository : PagedRepository<User>
+	public class UserRepository : Repository<User>
 	{
 		public override void Add(User newEntity)
 		{

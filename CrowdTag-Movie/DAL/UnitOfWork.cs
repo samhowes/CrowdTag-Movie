@@ -9,17 +9,17 @@ namespace CrowdTagMovie.DAL
 	public class UnitOfWork : IDisposable
 	{
 		private MovieContext _context = new MovieContext();
-		private PagedRepository<Movie> _movieRepository;
-		private PagedRepository<User> _userRepository;
+		private Repository<Movie> _movieRepository;
+		private Repository<User> _userRepository;
 
-		public PagedRepository<Movie> MovieRepository
+		public Repository<Movie> MovieRepository
 		{
-			get { return _movieRepository ?? (_movieRepository = new PagedRepository<Movie>(_context)); }
+			get { return _movieRepository ?? (_movieRepository = new Repository<Movie>(_context)); }
 		}
 
-		public PagedRepository<User> UserRepository
+		public Repository<User> UserRepository
 		{
-			get { return _userRepository ?? (_userRepository = new PagedRepository<User>(_context)); }
+			get { return _userRepository ?? (_userRepository = new Repository<User>(_context)); }
 		}
 
 		public void Commit()

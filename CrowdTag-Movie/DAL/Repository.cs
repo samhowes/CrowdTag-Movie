@@ -1,49 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data.Entity;
-using CrowdTagMovie.Models;
+using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using PagedList;
 
 namespace CrowdTagMovie.DAL
 {
-	public class PagedRepository<TEntity> : IPagedRepository<TEntity> where TEntity : class
+	public class Repository<TEntity> where TEntity : class
 	{
-		internal MovieContext _context;
-		internal DbSet<TEntity> dbSet;
+		protected MovieContext _context;
+		protected DbSet<TEntity> dbSet;
 
-		protected static int pageSize = 20;
-		protected static int pageNumber = 20;
-
-		public PagedRepository()
+		public Repository()
 		{
 			this._context = new MovieContext();
-			SetPaging(1, 20);
+			this.dbSet = _context.Set<TEntity>();
 		}
 
-		public PagedRepository(MovieContext context, int pageNumber = 1, int pageSize = 20)
+		public Repository(MovieContext context)
 		{
 			this._context = context;
 			this.dbSet = context.Set<TEntity>();
-			SetPaging(pageNumber, pageSize);
-		}
-		
-		public void SetPaging(int pageNumber, int pageSize)
-		{
-			PagedRepository<TEntity>.pageSize = pageSize;
-			PagedRepository<TEntity>.pageNumber = pageNumber;
 		}
 
-		private IPagedList QueryToPagedList(IQueryable<TEntity> query)
-		{
-			return query.ToPagedList(PagedRepository<TEntity>.pageNumber, PagedRepository<TEntity>.pageSize);
-		}
-
-		public virtual IPagedList Get(
-			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderByFunc,
+		public virtual IEnumerable<TEntity> Get(
+			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderByFunc = null,
 			Expression<Func<TEntity, bool>> filter = null,
 			params Expression<Func<TEntity, object>>[] includeExpressions)
 		{
@@ -59,9 +40,13 @@ namespace CrowdTagMovie.DAL
 				query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
 			}
 
-			query = orderByFunc(query);
+			if (orderByFunc != null)
+			{
+				query = orderByFunc(query);
+			}
 
-			return QueryToPagedList(query);
+
+			return query.ToList();
 		}
 
 		public virtual TEntity GetById(object id)

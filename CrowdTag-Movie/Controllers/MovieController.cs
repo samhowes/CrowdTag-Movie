@@ -28,7 +28,7 @@ namespace CrowdTagMovie.Controllers
 
 		private int pageSize = 10;
 
-		private void SetViebagSortParameters(string sortOrder)
+		private void SetViewBagSortParameters(string sortOrder)
 		{
 			ViewBag.CurrentSort = sortOrder;
 			ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? SortStrings.TitleDescend : SortStrings.TitleAscend;
@@ -40,7 +40,7 @@ namespace CrowdTagMovie.Controllers
 		[AllowAnonymous]
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-			SetViebagSortParameters(sortOrder);
+			SetViewBagSortParameters(sortOrder);
 			
 			if (searchString != null)
 			{
