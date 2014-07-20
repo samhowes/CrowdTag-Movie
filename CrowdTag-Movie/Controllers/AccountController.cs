@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using CrowdTagMovie.Models;
+using CrowdTagMovie.DAL;
 
 namespace CrowdTagMovie.Controllers
 {
@@ -82,6 +83,19 @@ namespace CrowdTagMovie.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+					/* Create a CrowdTagUser as well */
+					await Task.Run(
+						() =>
+						{
+							using (var UoW = new UnitOfWork())
+							{
+								UoW.UserRepository.Add(new User
+									{
+										ID = user.Id,
+										Username = user.UserName,
+									});
+							}
+						});
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

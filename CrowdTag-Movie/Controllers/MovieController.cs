@@ -14,7 +14,7 @@ using CrowdTagMovie.DAL;
 
 namespace CrowdTagMovie.Controllers
 {
-	internal sealed class SortStrings
+	public sealed class SortStrings
 	{
 		public const string TitleDescend	= "Title_desc";
 		public const string TitleAscend		= "";
@@ -24,16 +24,23 @@ namespace CrowdTagMovie.Controllers
 
     public class MovieController : Controller
     {
-		private UnitOfWork unitOfWork = new UnitOfWork();
+		private UnitOfWork UoW = new UnitOfWork();
+
+		private int pageSize = 10;
+
+		private void SetViebagSortParameters(string sortOrder)
+		{
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? SortStrings.TitleDescend : SortStrings.TitleAscend;
+			ViewBag.ReleaseSortParm = (sortOrder == SortStrings.ReleaseAscend) ? SortStrings.ReleaseDescend : SortStrings.ReleaseAscend;
+
+		}
 
         // GET: /Movie/
 		[AllowAnonymous]
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-			ViewBag.CurrentSort = sortOrder;
-			ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? SortStrings.TitleDescend : SortStrings.TitleAscend;
-			ViewBag.ReleaseSortParm = sortOrder == SortStrings.ReleaseAscend ? SortStrings.ReleaseDescend : SortStrings.ReleaseAscend;
-			
+			SetViebagSortParameters(sortOrder);
 			
 			if (searchString != null)
 			{
@@ -49,16 +56,10 @@ namespace CrowdTagMovie.Controllers
 
 			Expression<Func<Movie,bool>> searchFunc = null;
 			Func<IQueryable<Movie>, IOrderedQueryable<Movie>> orderByFunc = null;
-			int pageSize = 4;
 			int pageNumber = (page ?? 1);
 
 			if (!String.IsNullOrEmpty(searchString))
 			{
-				/*moviesQuery = moviesQuery.Where(m => 
-					m.Title.ToUpper().Contains(searchString.ToUpper()) ||
-					m.Director.ToUpper().Contains(searchString.ToUpper())
-					);*/
-
 				searchFunc = m => m.Title.ToUpper().Contains(searchString.ToUpper())
 												|| m.Director.ToUpper().Contains(searchString.ToUpper());
 			}
@@ -79,34 +80,29 @@ namespace CrowdTagMovie.Controllers
 					break;
 			}
 
-			/*return View(await Task.Run<IPagedList>(
-				() =>
-				{
-					return moviesQuery.ToPagedList(pageNumber, pageSize);
-				})); */
-
-			//var movies = await unitOfWork.MovieRepository.GetAsync(searchFunc, orderByFunc);
-			return View(await unitOfWork.MovieRepository.GetAsync(orderByFunc, searchFunc));
+			return View(UoW.MovieRepository.Get(orderByFunc, searchFunc));
         }
 
         // GET: /Movie/Details/5
 		[AllowAnonymous]
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
 			var movie = new Movie();
-			/*
+			
 			if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = await db.Movies.FindAsync(id);
+            
+			movie = UoW.MovieRepository.GetById(id);
+
             if (movie == null)
             {
                 return HttpNotFound();
-            }*/
+            }
             return View(movie);
         }
-		/*
+		
         // GET: /Movie/Create
         public ActionResult Create()
         {
@@ -114,16 +110,14 @@ namespace CrowdTagMovie.Controllers
         }
 
         // POST: /Movie/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include="MovieID,DateAdded,Title,ReleaseDate,Description,Director")] Movie movie)
+        public ActionResult Create([Bind(Include="Title,ReleaseDate,Description,Director")] Movie movie)
         {
             if (ModelState.IsValid)
             {
-				db.Movies.Add(movie);
-                await db.SaveChangesAsync();
+				UoW.MovieRepository.Add(movie);
+				UoW.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -131,44 +125,46 @@ namespace CrowdTagMovie.Controllers
         }
 
         // GET: /Movie/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = await db.Movies.FindAsync(id);
-            if (movie == null)
+            
+			Movie movie = UoW.MovieRepository.GetById(id);
+
+			if (movie == null)
             {
                 return HttpNotFound();
             }
-            return View(movie);
+            
+			return View(movie);
         }
 
         // POST: /Movie/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include="MovieID,DateAdded,Title,ReleaseDate,Description,Director")] Movie movie)
+        public async Task<ActionResult> Edit([Bind(Include="Title,ReleaseDate,Description,Director")] Movie movie)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(movie).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                UoW.MovieRepository.Update(movie);
+				return RedirectToAction("Index");
             }
             return View(movie);
         }
 
         // GET: /Movie/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = await db.Movies.FindAsync(id);
+
+            Movie movie = UoW.MovieRepository.GetById(id);
+
             if (movie == null)
             {
                 return HttpNotFound();
@@ -180,20 +176,18 @@ namespace CrowdTagMovie.Controllers
         // POST: /Movie/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Movie movie = await db.Movies.FindAsync(id);
-            db.Movies.Remove(movie);
-            await db.SaveChangesAsync();
+			UoW.MovieRepository.DeleteById(id);
+			UoW.Commit();
             return RedirectToAction("Index");
         }
 
-		 */
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-				unitOfWork.Dispose();
+				UoW.Dispose();
             }
             base.Dispose(disposing);
         }

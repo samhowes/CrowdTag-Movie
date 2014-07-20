@@ -169,10 +169,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
-    <Compile Include="DAL\GenericPagedRepository.cs" />
+    <Compile Include="DAL\IPagedRepository.cs" />
+    <Compile Include="DAL\PagedRepository.cs" />
     <Compile Include="DAL\MovieContext.cs" />
     <Compile Include="DAL\MovieInitializer.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
+    <Compile Include="DAL\CustomRepositories.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -187,7 +189,15 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ModelConstant.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\TagApplication.cs" />
+    <Compile Include="Models\TagCategory.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserAddedItem.cs" />
+    <Compile Include="Models\UserRank.cs" />
+    <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

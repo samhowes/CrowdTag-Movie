@@ -35,7 +35,7 @@ namespace CrowdTagMovie.Migrations
 				context.Movies.AddOrUpdate(movie);
 				context.SaveChanges();
 			}
-			//context.SaveChanges();
+			//_context.SaveChanges();
 		}
     }
 }

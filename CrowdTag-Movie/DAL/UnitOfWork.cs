@@ -8,35 +8,33 @@ namespace CrowdTagMovie.DAL
 {
 	public class UnitOfWork : IDisposable
 	{
-		private MovieContext dbContext = new MovieContext();
-		private GenericPagedRepository<Movie> movieRepository;
+		private MovieContext _context = new MovieContext();
+		private PagedRepository<Movie> _movieRepository;
+		private PagedRepository<User> _userRepository;
 
-		public GenericPagedRepository<Movie> MovieRepository
+		public PagedRepository<Movie> MovieRepository
 		{
-			get
-			{
-				if (this.movieRepository == null)
-				{
-					this.movieRepository = new GenericPagedRepository<Movie>(dbContext);
-				}
-				return this.movieRepository;
-			}
+			get { return _movieRepository ?? (_movieRepository = new PagedRepository<Movie>(_context)); }
 		}
 
-		public void Save()
+		public PagedRepository<User> UserRepository
 		{
-			dbContext.SaveChanges();
+			get { return _userRepository ?? (_userRepository = new PagedRepository<User>(_context)); }
+		}
+
+		public void Commit()
+		{
+			_context.SaveChanges();
 		}
 
 
-		/*** IDisposable Implementation ***/
+		/***   IDisposable Implementation   ***/
 		private bool disposed = false;
-
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!this.disposed && disposing)
 			{
-				dbContext.Dispose();
+				_context.Dispose();
 			}
 			this.disposed = true;
 		}
