@@ -195,8 +195,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.old.min.css" />
     <Content Include="Content\zocial-regular-webfont.svg" />
     <Content Include="Content\zocial.css" />
     <Content Include="favicon.ico" />
