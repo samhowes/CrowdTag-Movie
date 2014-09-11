@@ -7,8 +7,8 @@ namespace CrowdTagMovie.Models
 {
 	public class TagApplication : UserAddedItem
 	{
-		[Required]
-		public int Score { get; set; }
+		//[Required]
+		//public int Score { get; set; }
 
 		[Required]
 		[ForeignKey("Movie")]
@@ -20,7 +20,7 @@ namespace CrowdTagMovie.Models
 
 		public virtual Movie Movie { get; set; }
 		public virtual Tag Tag { get; set; }
-		public virtual ICollection<Vote> Votes { get; set; }
+		//public virtual ICollection<Vote> Votes { get; set; }
 
 	}
 }

@@ -13,7 +13,7 @@ namespace CrowdTagMovie.DAL
 		{
 			var now = DateTime.Now;
 
-			var ranks = new List<UserRank>
+			/*var ranks = new List<UserRank>
 			{
 				new UserRank
 				{
@@ -23,6 +23,7 @@ namespace CrowdTagMovie.DAL
 
 			ranks.ForEach(r => context.Ranks.Add(r));
 			context.SaveChanges();
+			*/
 
 			var crowdTagBot = new User
 			{
@@ -32,8 +33,8 @@ namespace CrowdTagMovie.DAL
 				Email="Noreply@CrowdTag.com",
 				DateJoined=now,
 				LastActivity=now,
-				UserRankID=ranks[0].UserRankID,
-			};
+				//UserRankID=ranks[0].UserRankID,
+			}; 
 
 			context.Users.Add(crowdTagBot);
 			context.SaveChanges();

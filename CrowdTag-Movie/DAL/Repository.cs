@@ -8,7 +8,7 @@ namespace CrowdTagMovie.DAL
 {
 	public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 	{
-		protected IMovieContext _context;
+		protected MovieContext _context;
 		protected DbSet<TEntity> dbSet;
 
 		/*
@@ -18,7 +18,7 @@ namespace CrowdTagMovie.DAL
 			this.dbSet = _context.Set<TEntity>();
 		}*/
 
-		public Repository(IMovieContext context)
+		public Repository(MovieContext context)
 		{
 			this._context = context;
 			this.dbSet = context.Set<TEntity>();

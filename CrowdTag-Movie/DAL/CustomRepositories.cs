@@ -9,7 +9,7 @@ namespace CrowdTagMovie.DAL
 	{
 		//public UserAddedItemRepository() : base() { }
 
-		public UserAddedItemRepository(IMovieContext movieContext) : base(movieContext)
+		public UserAddedItemRepository(MovieContext movieContext) : base(movieContext)
 		{}
 		
 
@@ -28,14 +28,14 @@ namespace CrowdTagMovie.DAL
 
 	public class UserRepository : Repository<User>
 	{
-		public UserRepository(IMovieContext context) : base(context)
+		public UserRepository(MovieContext context) : base(context)
 		{ }
 
 		public override void Add(User newEntity)
 		{
 			newEntity.DateJoined = DateTime.Now;
 			newEntity.LastActivity = DateTime.Now;
-			newEntity.UserRankID = 1;
+			//newEntity.UserRankID = 1;
 			base.Add(newEntity);
 		}
 	}

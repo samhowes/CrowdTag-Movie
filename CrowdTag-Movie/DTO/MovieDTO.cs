@@ -16,7 +16,7 @@ namespace CrowdTagMovie.DTO
 
 
 		[Required]
-		[DataType(DataType.Date), DisplayFormat(DataFormatString = ModelConstant.FormatString.Date, ApplyFormatInEditMode = true)]
+		[DataType(DataType.Date)]
 		public DateTime? ReleaseDate { get; set; }
 
 

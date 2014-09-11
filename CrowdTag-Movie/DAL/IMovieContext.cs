@@ -7,9 +7,11 @@ namespace CrowdTagMovie.DAL
 	{
 		DbSet<Movie> Movies { get; set; }
 		
-		DbSet<UserRank> Ranks { get; set; }
+		
 		
 		DbSet<User> Users { get; set; }
+
+		//DbSet<UserRank> Ranks { get; set; }
 
 		int SaveChanges();
 

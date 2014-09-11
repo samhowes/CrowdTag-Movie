@@ -18,9 +18,9 @@ namespace CrowdTagMovie.Models
 		[StringLength(160)]
 		public string Username { get; set; }
 
-		[Required]
-		[ForeignKey("Rank")]
-		public int UserRankID { get; set; }
+		//[Required]
+		//[ForeignKey("Rank")]
+		//public int UserRankID { get; set; }
 
 
 		[Required]
@@ -51,11 +51,11 @@ namespace CrowdTagMovie.Models
 
 		
 
-		public virtual UserRank Rank { get; set; }
+		//public virtual UserRank Rank { get; set; }
 		public virtual ICollection<TagApplication> TagApplications { get; set; }
 		public virtual ICollection<Movie> Movies { get; set; }
 		public virtual ICollection<Tag> Tags { get; set; }
-		public virtual ICollection<Vote> Votes { get; set; }
+		//public virtual ICollection<Vote> Votes { get; set; }
 		
 	}
 }

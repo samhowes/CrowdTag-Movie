@@ -170,9 +170,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="DAL\IMovieContext.cs" />
-    <Compile Include="DAL\IPagedRepository.cs" />
     <Compile Include="DAL\IRepository.cs" />
-    <Compile Include="DAL\PagedRepository.cs" />
     <Compile Include="DAL\MovieContext.cs" />
     <Compile Include="DAL\MovieInitializer.cs" />
     <Compile Include="DAL\Repository.cs" />
@@ -258,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

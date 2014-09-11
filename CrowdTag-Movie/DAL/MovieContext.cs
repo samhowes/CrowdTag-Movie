@@ -4,7 +4,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace CrowdTagMovie.DAL
 {
-	public class MovieContext : DbContext, IMovieContext
+	public class MovieContext : DbContext//, IMovieContext
 	{
 
 		public MovieContext() : base("MovieContext2")
@@ -14,7 +14,11 @@ namespace CrowdTagMovie.DAL
 
 		public DbSet<User> Users { get; set; }
 
-		public DbSet<UserRank> Ranks { get; set; }
+		//public DbSet<UserRank> Ranks { get; set; }
+
+		//public DbSet<Vote> Votes { get; set; }
+
+
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
