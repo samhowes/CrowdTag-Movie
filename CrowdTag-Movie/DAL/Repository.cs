@@ -6,18 +6,19 @@ using System.Linq.Expressions;
 
 namespace CrowdTagMovie.DAL
 {
-	public class Repository<TEntity> where TEntity : class
+	public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 	{
-		protected MovieContext _context;
+		protected IMovieContext _context;
 		protected DbSet<TEntity> dbSet;
 
+		/*
 		public Repository()
 		{
 			this._context = new MovieContext();
 			this.dbSet = _context.Set<TEntity>();
-		}
+		}*/
 
-		public Repository(MovieContext context)
+		public Repository(IMovieContext context)
 		{
 			this._context = context;
 			this.dbSet = context.Set<TEntity>();
@@ -62,10 +63,7 @@ namespace CrowdTagMovie.DAL
 
 		public virtual void Delete(TEntity entityToDelete)
 		{
-			if (_context.Entry(entityToDelete).State == EntityState.Detached)
-			{
-				dbSet.Attach(entityToDelete);
-			}
+			_context.AttachIfUnattached(entityToDelete);
 			dbSet.Remove(entityToDelete);
 		}
 
@@ -76,7 +74,7 @@ namespace CrowdTagMovie.DAL
 
 		public virtual void Update(TEntity editedEntity)
 		{
-			_context.Entry(editedEntity).State = EntityState.Modified;
+			_context.MarkAsModified(editedEntity);
 		}
 	}
 }

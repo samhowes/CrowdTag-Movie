@@ -5,17 +5,21 @@ using CrowdTagMovie.Models;
 
 namespace CrowdTagMovie.DAL
 {
-	public class UserAddedItemRepository : Repository<UserAddedItem>
+	public class UserAddedItemRepository<TEntity> : Repository<TEntity> where TEntity : UserAddedItem
 	{
-		public UserAddedItemRepository() : base() { }
+		//public UserAddedItemRepository() : base() { }
 
-		public override void Add(UserAddedItem newEntity)
+		public UserAddedItemRepository(IMovieContext movieContext) : base(movieContext)
+		{}
+		
+
+		public override void Add(TEntity newEntity)
 		{
 			newEntity.CreatedDateTime = DateTime.Now;
 			base.Add(newEntity);
 		}
 
-		public override void Update(UserAddedItem editedEntity)
+		public override void Update(TEntity editedEntity)
 		{
 			editedEntity.UpdatedDateTime = DateTime.Now;
 			base.Update(editedEntity);
@@ -24,6 +28,9 @@ namespace CrowdTagMovie.DAL
 
 	public class UserRepository : Repository<User>
 	{
+		public UserRepository(IMovieContext context) : base(context)
+		{ }
+
 		public override void Add(User newEntity)
 		{
 			newEntity.DateJoined = DateTime.Now;

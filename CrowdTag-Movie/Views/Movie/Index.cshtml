@@ -58,8 +58,7 @@
             @Html.DisplayFor(modelItem => item.Director)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class="btn btn-primary" })
         </td>
     </tr>
 }

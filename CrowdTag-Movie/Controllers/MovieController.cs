@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using PagedList;
 using CrowdTagMovie.Models;
 using CrowdTagMovie.DAL;
+using CrowdTagMovie.DTO;
 
 namespace CrowdTagMovie.Controllers
 {
@@ -112,13 +113,14 @@ namespace CrowdTagMovie.Controllers
         // POST: /Movie/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Title,ReleaseDate,Description,Director")] Movie movie)
+        public ActionResult Create([Bind(Include="Title,ReleaseDate,Description,Director")] MovieDTO movie)
         {
             if (ModelState.IsValid)
             {
-				UoW.MovieRepository.Add(movie);
+				var dbo = movie.ToDBO();
+				UoW.MovieRepository.Add(dbo);
 				UoW.Commit();
-                return RedirectToAction("Index");
+				return RedirectToAction("Details", new { id = dbo.ID });
             }
 
             return View(movie);

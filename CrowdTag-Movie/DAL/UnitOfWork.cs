@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 using CrowdTagMovie.Models;
 
 namespace CrowdTagMovie.DAL
@@ -9,17 +8,22 @@ namespace CrowdTagMovie.DAL
 	public class UnitOfWork : IDisposable
 	{
 		private MovieContext _context = new MovieContext();
-		private Repository<Movie> _movieRepository;
+		private UserAddedItemRepository<Movie> _movieRepository;
 		private Repository<User> _userRepository;
 
-		public Repository<Movie> MovieRepository
+		public UserAddedItemRepository<Movie> MovieRepository
 		{
-			get { return _movieRepository ?? (_movieRepository = new Repository<Movie>(_context)); }
+			get { return _movieRepository ?? (_movieRepository = new UserAddedItemRepository<Movie>(_context)); }
 		}
 
 		public Repository<User> UserRepository
 		{
 			get { return _userRepository ?? (_userRepository = new Repository<User>(_context)); }
+		}
+
+		public string GetCurrentUserID()
+		{
+			return HttpContext.Current.User.Identity.GetUserId();
 		}
 
 		public void Commit()

@@ -169,13 +169,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
+    <Compile Include="DAL\IMovieContext.cs" />
     <Compile Include="DAL\IPagedRepository.cs" />
+    <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\PagedRepository.cs" />
     <Compile Include="DAL\MovieContext.cs" />
     <Compile Include="DAL\MovieInitializer.cs" />
     <Compile Include="DAL\Repository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\CustomRepositories.cs" />
+    <Compile Include="DTO\MovieDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
