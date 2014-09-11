@@ -7,13 +7,13 @@ namespace CrowdTagMovie.DAL
 {
 	public class UnitOfWork : IDisposable
 	{
-		private MovieContext _context = new MovieContext();
-		private UserAddedItemRepository<Movie> _movieRepository;
+		private TagContext _context = new TagContext();
+		private UserAddedItemRepository<TaggedItem> _movieRepository;
 		private Repository<User> _userRepository;
 
-		public UserAddedItemRepository<Movie> MovieRepository
+		public UserAddedItemRepository<TaggedItem> MovieRepository
 		{
-			get { return _movieRepository ?? (_movieRepository = new UserAddedItemRepository<Movie>(_context)); }
+			get { return _movieRepository ?? (_movieRepository = new UserAddedItemRepository<TaggedItem>(_context)); }
 		}
 
 		public Repository<User> UserRepository

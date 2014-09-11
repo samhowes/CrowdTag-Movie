@@ -37,7 +37,7 @@ namespace CrowdTagMovie.Controllers
 
 		}
 
-        // GET: /Movie/
+        // GET: /TaggedItem/
 		[AllowAnonymous]
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -55,20 +55,20 @@ namespace CrowdTagMovie.Controllers
 			ViewBag.CurrentFilter = searchString;
 
 
-			Expression<Func<Movie,bool>> searchFunc = null;
-			Func<IQueryable<Movie>, IOrderedQueryable<Movie>> orderByFunc = null;
+			Expression<Func<TaggedItem,bool>> searchFunc = null;
+			Func<IQueryable<TaggedItem>, IOrderedQueryable<TaggedItem>> orderByFunc = null;
 			int pageNumber = (page ?? 1);
 
 			if (!String.IsNullOrEmpty(searchString))
 			{
-				searchFunc = m => m.Title.ToUpper().Contains(searchString.ToUpper())
+				searchFunc = m => m.Name.ToUpper().Contains(searchString.ToUpper())
 												|| m.Director.ToUpper().Contains(searchString.ToUpper());
 			}
 
 			switch (sortOrder)
 			{
 				case SortStrings.TitleDescend:
-					orderByFunc = m => m.OrderByDescending(movie => movie.Title);
+					orderByFunc = m => m.OrderByDescending(movie => movie.Name);
 					break;
 				case SortStrings.ReleaseAscend:
 					orderByFunc = m => m.OrderBy(movie => movie.ReleaseDate);
@@ -77,18 +77,18 @@ namespace CrowdTagMovie.Controllers
 					orderByFunc = m => m.OrderByDescending(movie => movie.ReleaseDate);
 					break;
 				default:
-					orderByFunc = m => m.OrderBy(movie => movie.Title);
+					orderByFunc = m => m.OrderBy(movie => movie.Name);
 					break;
 			}
 
 			return View(UoW.MovieRepository.Get(orderByFunc, searchFunc));
         }
 
-        // GET: /Movie/Details/5
+        // GET: /TaggedItem/Details/5
 		[AllowAnonymous]
         public ActionResult Details(int? id)
         {
-			var movie = new Movie();
+			var movie = new TaggedItem();
 			
 			if (id == null)
             {
@@ -104,16 +104,16 @@ namespace CrowdTagMovie.Controllers
             return View(movie);
         }
 		
-        // GET: /Movie/Create
+        // GET: /TaggedItem/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Movie/Create
+        // POST: /TaggedItem/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Title,ReleaseDate,Description,Director")] MovieDTO movie)
+        public ActionResult Create([Bind(Include="Name,ReleaseDate,Description,Director")] MovieDTO movie)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace CrowdTagMovie.Controllers
             return View(movie);
         }
 
-        // GET: /Movie/Edit/5
+        // GET: /TaggedItem/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace CrowdTagMovie.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
-			Movie movie = UoW.MovieRepository.GetById(id);
+			TaggedItem movie = UoW.MovieRepository.GetById(id);
 
 			if (movie == null)
             {
@@ -144,10 +144,10 @@ namespace CrowdTagMovie.Controllers
 			return View(movie);
         }
 
-        // POST: /Movie/Edit/5
+        // POST: /TaggedItem/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include="Title,ReleaseDate,Description,Director")] Movie movie)
+        public async Task<ActionResult> Edit([Bind(Include="Name,ReleaseDate,Description,Director")] TaggedItem movie)
         {
             if (ModelState.IsValid)
             {
@@ -157,7 +157,7 @@ namespace CrowdTagMovie.Controllers
             return View(movie);
         }
 
-        // GET: /Movie/Delete/5
+        // GET: /TaggedItem/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -165,7 +165,7 @@ namespace CrowdTagMovie.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Movie movie = UoW.MovieRepository.GetById(id);
+            TaggedItem movie = UoW.MovieRepository.GetById(id);
 
             if (movie == null)
             {
@@ -175,7 +175,7 @@ namespace CrowdTagMovie.Controllers
         }
 		
 
-        // POST: /Movie/Delete/5
+        // POST: /TaggedItem/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

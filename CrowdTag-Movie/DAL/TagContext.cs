@@ -4,13 +4,13 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace CrowdTagMovie.DAL
 {
-	public class MovieContext : DbContext//, IMovieContext
+	public class TagContext : DbContext//, IMovieContext
 	{
 
-		public MovieContext() : base("MovieContext2")
+		public TagContext() : base("MovieContext2")
 		{}
 
-		public DbSet<Movie> Movies { get; set; }
+		public DbSet<TaggedItem> TaggedItems { get; set; }
 
 		public DbSet<User> Users { get; set; }
 

@@ -19,7 +19,7 @@ namespace CrowdTagMovie
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			Database.SetInitializer(new MovieInitializer());
+			Database.SetInitializer(new TagInitializer());
         }
     }
 }

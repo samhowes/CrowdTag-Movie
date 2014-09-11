@@ -8,17 +8,17 @@ namespace CrowdTagMovie.DAL
 {
 	public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 	{
-		protected MovieContext _context;
+		protected TagContext _context;
 		protected DbSet<TEntity> dbSet;
 
 		/*
 		public Repository()
 		{
-			this._context = new MovieContext();
+			this._context = new TagContext();
 			this.dbSet = _context.Set<TEntity>();
 		}*/
 
-		public Repository(MovieContext context)
+		public Repository(TagContext context)
 		{
 			this._context = context;
 			this.dbSet = context.Set<TEntity>();

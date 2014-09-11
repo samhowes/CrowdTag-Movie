@@ -11,7 +11,7 @@ namespace CrowdTagMovie.DTO
 	{
 		[Required]
 		[StringLength(255)]
-		[RegularExpression(@"^[\'\-\:\s\w,]*$", ErrorMessage = "Title must not contain special characters")]
+		[RegularExpression(@"^[\'\-\:\s\w,]*$", ErrorMessage = "Name must not contain special characters")]
 		public string Title { get; set; }
 
 
@@ -28,22 +28,22 @@ namespace CrowdTagMovie.DTO
 		[RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
 		public string Director { get; set; }
 
-		public Movie ToDBO()
+		public TaggedItem ToDBO()
 		{
-			return new Movie
+			return new TaggedItem
 			{
-				Title = Title,
+				Name = Title,
 				ReleaseDate = ReleaseDate,
 				Description = Description,
 				Director = Director
 			};
 		}
 
-		public static MovieDTO FromDBO(Movie dbo)
+		public static MovieDTO FromDBO(TaggedItem dbo)
 		{
 			return new MovieDTO
 			{
-				Title = dbo.Title,
+				Title = dbo.Name,
 				ReleaseDate = dbo.ReleaseDate,
 				Description = dbo.Description,
 				Director = dbo.Director

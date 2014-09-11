@@ -9,7 +9,7 @@ namespace CrowdTagMovie.DAL
 	{
 		//public UserAddedItemRepository() : base() { }
 
-		public UserAddedItemRepository(MovieContext movieContext) : base(movieContext)
+		public UserAddedItemRepository(TagContext movieContext) : base(movieContext)
 		{}
 		
 
@@ -28,7 +28,7 @@ namespace CrowdTagMovie.DAL
 
 	public class UserRepository : Repository<User>
 	{
-		public UserRepository(MovieContext context) : base(context)
+		public UserRepository(TagContext context) : base(context)
 		{ }
 
 		public override void Add(User newEntity)

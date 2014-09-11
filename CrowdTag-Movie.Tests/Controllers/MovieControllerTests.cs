@@ -67,7 +67,7 @@ namespace CrowdTagMovie.Tests.Controllers
 			// Arrange
 			var newMovie = new MovieDTO
 			{
-				Title="New Movie",
+				Title="New TaggedItem",
 				ReleaseDate=DateTime.Now,
 				Description="This is longer than 20 characters",
 				Director="Me"
