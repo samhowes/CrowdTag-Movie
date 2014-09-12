@@ -10,23 +10,23 @@ using System.Web.Http.Description;
 
 namespace CrowdTagMovie.Controllers.Api
 {
-	public static class ApiRoutes
+	public static class MyApiRoutes
 	{
 		public const string ApiPrefix = "api";
 		public static class Drinks
 		{
-			public const string Main = "Drinks";
+			public const string Main = "/Drinks";
 			public const string SpecificItem = Main + "/{drinkId:int:min(1)}";
 		}
 	}
 	
-	[RoutePrefix(ApiRoutes.ApiPrefix)]
+	[RoutePrefix("api")]
     public class DrinkController : ApiController
     {
 
 		private UnitOfWork UoW = new UnitOfWork();
 
-		[Route(ApiRoutes.Drinks.Main)]
+		[Route("drinks")]
 		[ResponseType(typeof(TaggedItemDTO))]
 		public IHttpActionResult GetAllDrinks()
 		{
