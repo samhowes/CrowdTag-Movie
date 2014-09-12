@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using CrowdTagMovie.Models;
+using System.Linq.Expressions;
 
 namespace CrowdTagMovie.DAL
 {
@@ -23,6 +25,19 @@ namespace CrowdTagMovie.DAL
 		{
 			editedEntity.UpdatedDateTime = DateTime.Now;
 			base.Update(editedEntity);
+		}
+	}
+
+	public class TaggedItemRepository : UserAddedItemRepository<TaggedItem> 
+	{
+		public TaggedItemRepository(TagContext tagContext) : base(tagContext) { }
+
+		public override IEnumerable<TaggedItem> Get(Func<IQueryable<TaggedItem>, IOrderedQueryable<TaggedItem>> orderByFunc = null, Expression<Func<TaggedItem, bool>> filter = null, params Expression<Func<TaggedItem, object>>[] includeExpressions)
+		{
+			var query = dbSet.AsQueryable()
+						.Include(ti => ti.TagApplications.Select(ta => ta.Tag));
+
+			return query.ToList();
 		}
 	}
 

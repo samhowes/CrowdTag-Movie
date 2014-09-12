@@ -65,9 +65,9 @@ namespace CrowdTagMovie.Tests.Controllers
 		public void CreateMovie_ShouldRedirectToMovie()
 		{
 			// Arrange
-			var newMovie = new MovieDTO
+			var newMovie = new TaggedItemDTO
 			{
-				Title="New TaggedItem",
+				Name="New TaggedItem",
 				ReleaseDate=DateTime.Now,
 				Description="This is longer than 20 characters",
 				Director="Me"

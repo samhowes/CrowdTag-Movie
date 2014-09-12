@@ -16,7 +16,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44302</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -57,12 +58,24 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -166,7 +179,28 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\ActionSelectSimulator.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\DictionaryExtensions.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\HttpParameterBindingExtensions.cs" />
+    <Compile Include="Areas\RouteDebugger\Components\TypeHelper.cs" />
+    <Compile Include="Areas\RouteDebugger\Controllers\RouteDebuggerController.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectActionInvoker.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectActionSelector.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectControllerSelector.cs" />
+    <Compile Include="Areas\RouteDebugger\InspectHandler.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\ActionSelectionInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\ActionSelectionLog.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\ControllerSelectionInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\HttpParameterDescriptionInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\InspectData.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\RouteDataInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\Models\RouteInfo.cs" />
+    <Compile Include="Areas\RouteDebugger\RequestHelper.cs" />
+    <Compile Include="Areas\RouteDebugger\RouteDebuggerAreaRegistration.cs" />
+    <Compile Include="Areas\RouteDebugger\RouteDebuggerConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\DrinkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="DAL\IRepository.cs" />
@@ -175,7 +209,8 @@
     <Compile Include="DAL\Repository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\CustomRepositories.cs" />
-    <Compile Include="DTO\MovieDTO.cs" />
+    <Compile Include="DTO\TaggedItemDTO.cs" />
+    <Compile Include="DTO\UserAddedItemDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -194,11 +229,17 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\RouteDebugger\Content\rdstyle.css" />
+    <Content Include="Areas\RouteDebugger\Scripts\detect.js" />
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap.old.min.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\zocial-regular-webfont.svg" />
     <Content Include="Content\zocial.css" />
     <Content Include="favicon.ico" />
@@ -210,6 +251,8 @@
     <Content Include="Content\zocial-regular-webfont.eot" />
     <Content Include="Content\zocial-regular-webfont.ttf" />
     <Content Include="Content\zocial-regular-webfont.woff" />
+    <Content Include="Areas\RouteDebugger\Views\Web.config" />
+    <Content Include="Areas\RouteDebugger\Views\RouteDebugger\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -218,6 +261,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -255,7 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -282,7 +326,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1579</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44302/</IISUrl>
+          <IISUrl>http://localhost:1579/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

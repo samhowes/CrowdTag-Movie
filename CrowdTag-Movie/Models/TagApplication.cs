@@ -12,13 +12,13 @@ namespace CrowdTagMovie.Models
 
 		[Required]
 		[ForeignKey("TaggedItem")]
-		public int? MovieID { get; set; }
+		public int? TaggedItemID { get; set; }
 
 		[Required]
 		[ForeignKey("Tag")]
 		public int? TagID { get; set; }
 
-		public virtual TaggedItem Movie { get; set; }
+		public virtual TaggedItem TaggedItem { get; set; }
 		public virtual Tag Tag { get; set; }
 		//public virtual ICollection<Vote> Votes { get; set; }
 

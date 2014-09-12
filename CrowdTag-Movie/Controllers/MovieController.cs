@@ -59,6 +59,7 @@ namespace CrowdTagMovie.Controllers
 			Func<IQueryable<TaggedItem>, IOrderedQueryable<TaggedItem>> orderByFunc = null;
 			int pageNumber = (page ?? 1);
 
+			/*
 			if (!String.IsNullOrEmpty(searchString))
 			{
 				searchFunc = m => m.Name.ToUpper().Contains(searchString.ToUpper())
@@ -79,9 +80,9 @@ namespace CrowdTagMovie.Controllers
 				default:
 					orderByFunc = m => m.OrderBy(movie => movie.Name);
 					break;
-			}
+			}*/
 
-			return View(UoW.MovieRepository.Get(orderByFunc, searchFunc));
+			return View(UoW.TaggedItemRepository.Get(orderByFunc, searchFunc));
         }
 
         // GET: /TaggedItem/Details/5
@@ -95,7 +96,7 @@ namespace CrowdTagMovie.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
-			movie = UoW.MovieRepository.GetById(id);
+			movie = UoW.TaggedItemRepository.GetById(id);
 
             if (movie == null)
             {
@@ -113,12 +114,12 @@ namespace CrowdTagMovie.Controllers
         // POST: /TaggedItem/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Name,ReleaseDate,Description,Director")] MovieDTO movie)
+        public ActionResult Create([Bind(Include="Name,ReleaseDate,Description,Director")] TaggedItemDTO movie)
         {
             if (ModelState.IsValid)
             {
-				var dbo = movie.ToDBO();
-				UoW.MovieRepository.Add(dbo);
+				var dbo = movie.ToEntity();
+				UoW.TaggedItemRepository.Add(dbo);
 				UoW.Commit();
 				return RedirectToAction("Details", new { id = dbo.ID });
             }
@@ -134,7 +135,7 @@ namespace CrowdTagMovie.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
-			TaggedItem movie = UoW.MovieRepository.GetById(id);
+			TaggedItem movie = UoW.TaggedItemRepository.GetById(id);
 
 			if (movie == null)
             {
@@ -151,7 +152,7 @@ namespace CrowdTagMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                UoW.MovieRepository.Update(movie);
+                UoW.TaggedItemRepository.Update(movie);
 				return RedirectToAction("Index");
             }
             return View(movie);
@@ -165,7 +166,7 @@ namespace CrowdTagMovie.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            TaggedItem movie = UoW.MovieRepository.GetById(id);
+            TaggedItem movie = UoW.TaggedItemRepository.GetById(id);
 
             if (movie == null)
             {
@@ -180,7 +181,7 @@ namespace CrowdTagMovie.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-			UoW.MovieRepository.DeleteById(id);
+			UoW.TaggedItemRepository.DeleteById(id);
 			UoW.Commit();
             return RedirectToAction("Index");
         }

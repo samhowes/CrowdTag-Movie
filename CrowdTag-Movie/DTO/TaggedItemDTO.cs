@@ -7,47 +7,37 @@ using System.Web;
 
 namespace CrowdTagMovie.DTO
 {
-	public class MovieDTO
+	public class TaggedItemDTO : UserAddedItemDTO
 	{
 		[Required]
 		[StringLength(255)]
 		[RegularExpression(@"^[\'\-\:\s\w,]*$", ErrorMessage = "Name must not contain special characters")]
-		public string Title { get; set; }
-
-
-		[Required]
-		[DataType(DataType.Date)]
-		public DateTime? ReleaseDate { get; set; }
+		public string Name { get; set; }
 
 
 		[StringLength(ModelConstant.StringLength.FreeText, MinimumLength = 20, ErrorMessage = "Description must be at least 20 characters")]
 		public string Description { get; set; }
 
 
-		[StringLength(100)]
-		[RegularExpression(@"^[A-Z]+[a-zA-Z''-'\s]*$")]
-		public string Director { get; set; }
-
-		public TaggedItem ToDBO()
+		public TaggedItem ToEntity()
 		{
 			return new TaggedItem
 			{
-				Name = Title,
-				ReleaseDate = ReleaseDate,
+				Name = Name,
+				//ReleaseDate = ReleaseDate,
 				Description = Description,
-				Director = Director
+				//Director = Director
 			};
 		}
 
-		public static MovieDTO FromDBO(TaggedItem dbo)
+		public static TaggedItemDTO CreateFromEntity(TaggedItem entity)
 		{
-			return new MovieDTO
-			{
-				Title = dbo.Name,
-				ReleaseDate = dbo.ReleaseDate,
-				Description = dbo.Description,
-				Director = dbo.Director
-			};
+			TaggedItemDTO dto = UserAddedItemDTO.CreateFromEntity(entity) as TaggedItemDTO;
+			
+			dto.Name = entity.Name;
+			dto.Description = entity.Description;
+
+			return dto;
 		}
 	}
 }
