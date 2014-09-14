@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CrowdTagMovie.Models;
 using System.Linq.Expressions;
+using CrowdTagMovie.DTO;
 
 namespace CrowdTagMovie.DAL
 {
@@ -17,14 +18,18 @@ namespace CrowdTagMovie.DAL
 
 		public override void Add(TEntity newEntity)
 		{
+			newEntity.SubmitterID = CrowdTagAuthorization.GetCurrentUserId();
 			newEntity.CreatedDateTime = DateTime.Now;
 			base.Add(newEntity);
 		}
 
-		public override void Update(TEntity editedEntity)
+		protected TEntity Update(UserAddedItemDTO dto)
 		{
-			editedEntity.UpdatedDateTime = DateTime.Now;
-			base.Update(editedEntity);
+			var entity = this.GetById(dto.ID);
+
+			entity.UpdatedDateTime = DateTime.Now;
+
+			return entity;
 		}
 	}
 
@@ -38,6 +43,15 @@ namespace CrowdTagMovie.DAL
 						.Include(ti => ti.TagApplications.Select(ta => ta.Tag));
 
 			return query.ToList();
+		}
+
+		public TaggedItem Update(TaggedItemDTO dto)
+		{
+			var entity = base.Update(dto);
+
+			dto.UpdateEntity(ref entity);
+
+			return entity;
 		}
 	}
 

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CrowdTagMovie.DTO;
 
 namespace CrowdTagMovie.Models
 {
-	public abstract class UserAddedItem
+	public abstract class UserAddedItem : IUserAddedItemDTO
 	{
 		[Key]
 		public int ID { get; set; }

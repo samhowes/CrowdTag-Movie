@@ -11,6 +11,8 @@ namespace CrowdTagMovie.Models
 		[RegularExpression(ModelConstant.RegEx.TagName)]
 		public string Name { get; set; }
 
+		public string Description { get; set; }
+
 		public virtual ICollection<Tag> Tags { get; set; }
 	}
 }

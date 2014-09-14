@@ -21,7 +21,8 @@ namespace CrowdTagMovie.Models
 
 		public static class RegEx
 		{
-			public const string TagName = @"^[\w\-]+$";
+			public const string TagName = @"^[\S]{3,}$";
+			public const string ItemName = @"^.{3,}$";
 		}
 	}
 }

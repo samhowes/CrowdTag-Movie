@@ -9,6 +9,18 @@ namespace CrowdTagMovie.DTO
 {
 	public class UserAddedItemDTO
 	{
+		public UserAddedItemDTO() { }
+
+		public UserAddedItemDTO(UserAddedItem entity)
+		{
+			this.ID = entity.ID;
+			this.CreatedDateTime = entity.CreatedDateTime;
+			this.UpdatedDateTime = entity.UpdatedDateTime;
+
+		}
+
+		public int ID { get; set; }
+
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = ModelConstant.FormatString.Date, ApplyFormatInEditMode = true)]
 		public DateTime? CreatedDateTime { get; set; }
 
@@ -16,14 +28,6 @@ namespace CrowdTagMovie.DTO
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = ModelConstant.FormatString.Date, ApplyFormatInEditMode = true)]
 		public DateTime? UpdatedDateTime { get; set; }
 
-		public static UserAddedItemDTO CreateFromEntity(UserAddedItem entity)
-		{
-			return new UserAddedItemDTO
-			{
-				CreatedDateTime = entity.CreatedDateTime,
-				UpdatedDateTime = entity.UpdatedDateTime
-			};
-		}
 
 	}
 }

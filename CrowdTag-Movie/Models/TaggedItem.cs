@@ -10,11 +10,11 @@ namespace CrowdTagMovie.Models
 		
 		[Required]
 		[StringLength(255)]
-		[RegularExpression(@"^[\'\-\:\s\w,]*$", ErrorMessage="Name must not contain special characters")]
+		[RegularExpression(ModelConstant.RegEx.ItemName, ErrorMessage="Name must not contain special characters")]
 		public string Name { get; set; }
 
 
-		[StringLength(ModelConstant.StringLength.FreeText, MinimumLength = 20, ErrorMessage = "Description must be at least 20 characters")]
+		[StringLength(ModelConstant.StringLength.FreeText, MinimumLength = 3, ErrorMessage = "Description must be at least 3 characters")]
 		public string Description { get; set; }
 
 

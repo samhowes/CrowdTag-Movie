@@ -216,12 +216,16 @@
     <Compile Include="Controllers\Api\DrinkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
+    <Compile Include="CrowdTagAuthorization.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\TagContext.cs" />
     <Compile Include="DAL\TagInitializer.cs" />
     <Compile Include="DAL\Repository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\CustomRepositories.cs" />
+    <Compile Include="DTO\TagApplicationDTO.cs" />
+    <Compile Include="DTO\TagCategoryDTO.cs" />
+    <Compile Include="DTO\TagDTO.cs" />
     <Compile Include="DTO\TaggedItemDTO.cs" />
     <Compile Include="DTO\UserAddedItemDTO.cs" />
     <Compile Include="Global.asax.cs">
@@ -229,6 +233,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="DTO\IUserAddedItem.cs" />
     <Compile Include="Models\ModelConstant.cs" />
     <Compile Include="Models\TaggedItem.cs" />
     <Compile Include="Models\Tag.cs" />
