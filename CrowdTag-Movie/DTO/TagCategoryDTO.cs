@@ -21,5 +21,11 @@ namespace CrowdTagMovie.DTO
 		public string Name { get; set; }
 
 		public string Description { get; set; }
+
+		public void UpdateEntity(ref TagCategory entity)
+		{
+			entity.Name = this.Name;
+			entity.Description = this.Description;
+		}
 	}
 }

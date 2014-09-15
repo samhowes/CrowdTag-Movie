@@ -68,9 +68,9 @@ namespace CrowdTagMovie.Tests.Controllers
 			var newMovie = new TaggedItemDTO
 			{
 				Name="New TaggedItem",
-				ReleaseDate=DateTime.Now,
+				//ReleaseDate=DateTime.Now,
 				Description="This is longer than 20 characters",
-				Director="Me"
+				//Director="Me"
 			};
 			ActionResult result = null;
 

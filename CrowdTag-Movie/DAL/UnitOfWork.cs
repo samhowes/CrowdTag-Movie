@@ -10,20 +10,27 @@ namespace CrowdTagMovie.DAL
 		private TagContext _context = new TagContext();
 		private TaggedItemRepository _taggedItemRepository;
 		private Repository<User> _userRepository;
+		private TagCategoryRepository _tagCategoryRepository;
+		private UserAddedItemRepository<Tag> _tagRepository;
 
 		public TaggedItemRepository TaggedItemRepository
 		{
 			get { return _taggedItemRepository ?? (_taggedItemRepository = new TaggedItemRepository(_context)); }
 		}
+		
+		public TagCategoryRepository TagCategoryRepository
+		{
+			get { return _tagCategoryRepository ?? (_tagCategoryRepository = new TagCategoryRepository(_context)); }
+		}
+
+		public UserAddedItemRepository<Tag> TagRepository
+		{
+			get { return _tagRepository ?? (_tagRepository = new UserAddedItemRepository<Tag>(_context)); }
+		}
 
 		public Repository<User> UserRepository
 		{
 			get { return _userRepository ?? (_userRepository = new Repository<User>(_context)); }
-		}
-
-		public string GetCurrentUserID()
-		{
-			return HttpContext.Current.User.Identity.GetUserId();
 		}
 
 		public void Commit()
@@ -34,6 +41,7 @@ namespace CrowdTagMovie.DAL
 
 		/***   IDisposable Implementation   ***/
 		private bool disposed = false;
+		
 		protected virtual void Dispose(bool disposing)
 		{
 			if (!this.disposed && disposing)

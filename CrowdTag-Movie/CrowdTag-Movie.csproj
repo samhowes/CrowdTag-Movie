@@ -223,6 +223,7 @@
     <Compile Include="DAL\Repository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\CustomRepositories.cs" />
+    <Compile Include="DTO\IDTO.cs" />
     <Compile Include="DTO\TagApplicationDTO.cs" />
     <Compile Include="DTO\TagCategoryDTO.cs" />
     <Compile Include="DTO\TagDTO.cs" />

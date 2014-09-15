@@ -23,14 +23,26 @@ namespace CrowdTagMovie.DAL
 			base.Add(newEntity);
 		}
 
-		protected TEntity Update(UserAddedItemDTO dto)
+		public override TEntity Update(object id)
 		{
-			var entity = this.GetById(dto.ID);
+			TEntity entity = base.Update(id);
+			entity.UpdatedDateTime = DateTime.Now;
+			return entity;
+		}
+
+			/*
+		protected virtual UserAddedItem Update(object drinkId)
+		{
+			UserAddedItem entity = base.Update(drinkId)
+
+			UserAddedItem entity = this.GetById(dto.ID);
 
 			entity.UpdatedDateTime = DateTime.Now;
 
+			dto.UpdateEntity(ref entity);
+
 			return entity;
-		}
+		}*/
 	}
 
 	public class TaggedItemRepository : UserAddedItemRepository<TaggedItem> 
@@ -45,14 +57,36 @@ namespace CrowdTagMovie.DAL
 			return query.ToList();
 		}
 
-		public TaggedItem Update(TaggedItemDTO dto)
+		/*public TaggedItem Update(TaggedItemDTO dto)
 		{
-			var entity = base.Update(dto);
+			TaggedItem entity = (TaggedItem)base.Update(dto);
 
 			dto.UpdateEntity(ref entity);
 
 			return entity;
+		}*/
+	}
+	
+	public class TagCategoryRepository : UserAddedItemRepository<TagCategory>
+	{
+		public TagCategoryRepository(TagContext tagContext) : base(tagContext) { }
+
+		public override IEnumerable<TagCategory> Get(Func<IQueryable<TagCategory>, IOrderedQueryable<TagCategory>> orderByFunc = null, Expression<Func<TagCategory, bool>> filter = null, params Expression<Func<TagCategory, object>>[] includeExpressions)
+		{
+			var query = dbSet.AsQueryable()
+						.Include(tc => tc.Tags);
+
+			return query.ToList();
 		}
+		/*
+		public TagCategory Update(TagCategoryDTO dto)
+		{
+			TagCategory entity = (TagCategory)base.Update(dto);
+
+			dto.UpdateEntity(ref entity);
+
+			return entity;
+		}*/
 	}
 
 	public class UserRepository : Repository<User>

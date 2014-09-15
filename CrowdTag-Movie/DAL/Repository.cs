@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace CrowdTagMovie.DAL
 {
-	public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+	public class Repository<TEntity> /*: IRepository<TEntity>*/ where TEntity : class
 	{
 		protected TagContext _context;
 		protected DbSet<TEntity> dbSet;
@@ -72,9 +72,10 @@ namespace CrowdTagMovie.DAL
 			dbSet.Add(newEntity);
 		}
 
-		public virtual void Update(TEntity editedEntity)
+		public virtual TEntity Update(object id)
 		{
-			_context.MarkAsModified(editedEntity);
+			TEntity entity = GetById(id);
+			return entity;
 		}
 	}
 }
