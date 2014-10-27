@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1 class="text-warning">CrowdTag: Movies</h1>
+    <p class="lead">CrowdTag is an engine designed for the crowd to easily find movies with the qualities that you want. You can tag a movie that has a certain trait, vote on other member's tags, and find the movies that you want to watch. Start by browsing recent movies.</p>
+    @Html.ActionLink("View Recent Movies \u00BB", "Index", "Movie", null, new { @class = "btn btn-default" })
+</div>
+
+<blockquote>
+	<p>“Alone we can do so little; together we can do so much"</p>
+	<small>Helen Keller</small>
+</blockquote>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Explore Movies</h2>
+        <p>
+			CrowdTag wants you to find the content that you want to enjoy faster. Start by exploring recent movies, find a tag you like, and search for that tag with the search bar on every page.
+		</p>
+		@Html.ActionLink("View Recent Movies \u00BB", "Index", "Movie", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Power the Engine</h2>
+        <p>CrowdTag is nothing without the Crowd. Add your favorite movies, apply your own tags, and vote on other tags.</p>
+        @Html.ActionLink("How it works \u00BB", "About", "Home", null, new { @class = "btn btn-default" })
+    </div>
+</div>
