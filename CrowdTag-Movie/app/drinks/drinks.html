@@ -1,0 +1,47 @@
+﻿<section class="mainbar" data-ng-controller="drinks as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="form-search">
+                    <input class="form-search search-query"
+                           data-ng-model="vm.drinkSearch"
+                           data-ng-keyup="vm.search($event)"
+                           placeholder="live search..." />
+                </div>
+
+                <div class="btn-group pull-right">
+                    <a data-ng-click="vm.refresh()" class="btn btn-info">
+                        <i class="fa fa-refresh"></i><span>Refresh</span>
+                    </a>
+                    <a class="btn btn-info"
+                       href="#/drinks/new"><i class="fa fa-plus"></i>Mix a New Drink</a>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="widget wviolet">
+                    <div data-cc-widget-header title="{{vm.title}}" 
+                         subtitle="{{vm.filteredDrinks.length}} / {{vm.drinks.length}}"></div>
+                    <div class="widget-content user">
+                        <div class="padd"
+                             data-ng-repeat="d in vm.filteredDrinks"
+                             data-ng-click="vm.gotoDrink(d)">
+                            <div class="user" title="Go to drink details">
+                                <img data-cc-img-person="{{d.imageSource}}"
+                                     class="img-polaroid user-pic" />
+                                <div class="user-details">
+                                    <h3>{{d.name}}</h3>
+                                    <h6>{{d.description}}</h6>
+                                    <small class="text-subtle">{{d.tagsFormatted}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
