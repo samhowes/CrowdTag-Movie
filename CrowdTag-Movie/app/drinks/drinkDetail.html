@@ -1,0 +1,48 @@
+﻿<section class="mainbar" data-ng-controller="drinkDetail as vm">
+    <section class="matter">
+        <div class="container">
+            <div>
+                <button class="btn btn-info" data-ng-click="vm.goBack()">
+                    <i class="fa fa-hand-o-left"></i>Back
+                </button>
+                <button class="btn btn-info"
+                        data-ng-click="vm.cancel()"
+                        data-ng-disabled="!vm.canSave">
+                    <i class="fa fa-undo"></i>Cancel
+                </button>
+                <button class="btn btn-info"
+                        data-ng-click="vm.save()"
+                        data-ng-disabled="!vm.canSave">
+                    <i class="fa fa-save"></i>Save
+                </button>
+                <button class="btn btn-danger"
+                        data-ng-click="vm.deleteDrink()">
+                    <i class="fa fa-trash"></i>Delete
+                </button>
+                <span data-ng-show="vm.hasChanges"
+                      class="dissolve-animation ng-hide">
+                    <i class="fa fa-asterisk fa-asterisk-large"></i>
+                </span>
+            </div>
+            <div class="widget wgreen">
+                <div data-cc-widget-header title="Edit {{vm.drink.name || 'New Drink'}}"></div>
+                <div class="widget-content user">
+                    <div>
+                        <label>Name</label><br />
+                        <input data-ng-model="vm.drink.name"
+                               data-z-validate
+                               placeholder="Drink name" />
+                    </div>
+                    <div>
+                        <div>
+                            <label>Description</label><br />
+                            <input data-ng-model="vm.drink.description"
+                                   placeholder="Description" />
+                        </div>
+                    </div>     
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

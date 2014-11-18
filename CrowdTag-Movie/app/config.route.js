@@ -40,6 +40,13 @@
                     }
                 }
             }, {
+                url: '/drinks/:id',
+                config: {
+                    title: 'drink',
+                    templateUrl: 'app/drinks/drinkDetail.html',
+                    settings: {}
+                }
+            }, {
                 url: '/admin',
                 config: {
                     title: 'admin',

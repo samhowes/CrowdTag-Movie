@@ -19,7 +19,6 @@
             tag: 'Tag'
         };
 
-
         var service = {
             configureMetadataStore: configureMetadataStore,
             entityNames: entityNames,
@@ -34,6 +33,8 @@
             addTagItemType(metadataStore);
             //TODO: add other entities
 
+            metadataStore.setEntityTypeForResourceName('drinks', entityNames.drink);
+
         }
 
         function addDrinkItemType(metadataStore) {
@@ -43,7 +44,7 @@
                 shortName: entityNames.drink,
                 namespace: entityNamespace,
                 dataProperties: {
-                    iD: type(DT.Int64, true),
+                    id: type(DT.Int64, true),
                     name: type(DT.String),
                     description: type(DT.String),
                     createdDateTime: type(DT.DateTime),
@@ -83,7 +84,7 @@
                 shortName: entityNames.tag, 
                 namespace: entityNamespace,
                 dataProperties: {
-                    iD: type(DT.Int64, true),
+                    id: type(DT.Int64, true),
                     categoryID: type(DT.Int64),
                     taggedItemId: type(DT.Int64),
                     name: type(DT.String),
@@ -116,12 +117,12 @@
 
             function visitNode(node, parseContext, nodeContext) {
                 // Drink parser
-                if (node.ID && node.Recipe !== undefined) {
+                if (node.Id && node.Recipe !== undefined) {
                     return { entityType: entityNames.drink };
                 }
 
                 // Tag parser
-                if (node.ID && node.TaggedItemId !== undefined) {
+                if (node.Id && node.TaggedItemId !== undefined) {
                     return { entityType: entityNames.tag };
                 }
             }

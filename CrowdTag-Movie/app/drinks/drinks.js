@@ -13,7 +13,7 @@
         /* jshint validthis:true */
         var vm = this;
         var log = common.logger.getLogFn(controllerId);
-        var keyCodes = config.keyCodes; //TODO: Copy these
+        var keyCodes = config.keyCodes;
 
         //Bindables
         vm.gotoDrink = gotoDrink; 
@@ -46,8 +46,7 @@
 
         function gotoDrink(drink) {
             if (drink && drink.id) {
-                //TODO use $location to do this
-                //$location.path('/speaker/' + speaker.id);
+                $location.path('/drinks/' + drink.id);
             }
         }
 

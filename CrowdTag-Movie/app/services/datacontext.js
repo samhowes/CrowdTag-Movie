@@ -20,7 +20,8 @@
         var service = {
             getDrinks: getDrinks,
             getPeople: getPeople,
-            getMessageCount: getMessageCount
+            getMessageCount: getMessageCount,
+            getDrinkById: getDrinkById
         };
 
         return service;
@@ -38,6 +39,23 @@
                 { firstName: 'Haley', lastName: 'Guthrie', age: 35, location: 'Wyoming' }
             ];
             return $q.when(people);
+        }
+
+        function getDrinkById(id) {
+            var entityName = entityNames.drink;
+            return breeze.EntityQuery.from(String.format('Drinks/{0}', id))
+                .using(manager)
+                .execute()
+                .then(querySucceded, queryFailed);
+
+            function querySucceded(data) {
+                if (!(data.results.length > 0)) {
+                    logError('Could not find [' + entityName + '] id:' + id, null, true);
+                }
+
+                var entity = data.results[0];
+                return entity;
+            }
         }
 
         function getDrinks(forceRefresh) {
