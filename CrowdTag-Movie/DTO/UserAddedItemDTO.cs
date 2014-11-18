@@ -13,13 +13,13 @@ namespace CrowdTagMovie.DTO
 
 		public UserAddedItemDTO(UserAddedItem entity)
 		{
-			this.ID = entity.ID;
+			this.Id = entity.ID;
 			this.CreatedDateTime = entity.CreatedDateTime;
 			this.UpdatedDateTime = entity.UpdatedDateTime;
 
 		}
 
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		[DataType(DataType.Date), DisplayFormat(DataFormatString = ModelConstant.FormatString.Date, ApplyFormatInEditMode = true)]
 		public DateTime? CreatedDateTime { get; set; }

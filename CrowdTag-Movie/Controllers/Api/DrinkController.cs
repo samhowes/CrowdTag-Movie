@@ -177,7 +177,7 @@ namespace CrowdTagMovie.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var entity = new IngredientTagApplication { TaggedItemID = drinkId, TagID = newIngredient.ID };
+            var entity = new IngredientTagApplication { TaggedItemID = drinkId, TagID = newIngredient.Id };
             newIngredient.UpdateEntity(ref entity);
             UoW.TagApplicationRepository.Add(entity);
             UoW.Commit();

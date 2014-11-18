@@ -12,21 +12,21 @@ namespace CrowdTagMovie.DTO
 
         public int? TaggedItemId { get; set; }
 
-        public int? CategoryID { get; set; }
+        public int? CategoryId { get; set; }
 
         public TagDTO() : base() { }
 
         public TagDTO(TagApplication entity) : this(entity.Tag)
         {
             this.TaggedItemId = entity.TaggedItemID;
-            this.ID = entity.ID;
+            this.Id = entity.ID;
         }
 
         public TagDTO(Tag entity)
             : base(entity)
         {
             this.Name = entity.Name;
-            this.CategoryID = entity.CategoryID;
+            this.CategoryId = entity.CategoryID;
         }
 
 
