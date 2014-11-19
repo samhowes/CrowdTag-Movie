@@ -7,30 +7,40 @@
         .module('app')
         .controller(controllerId, drinkDetail);
 
-    drinkDetail.$inject = ['$location', '$routeParams', '$window', 'common', 'datacontext'];
+    drinkDetail.$inject = ['$location', '$scope', '$routeParams', '$window', 'common', 'config', 'datacontext'];
 
-    function drinkDetail($location, $routeParams, $window, common, datacontext) {
+    function drinkDetail($location, $scope, $routeParams, $window, common, config, datacontext) {
         /* jshint validthis:true */
         var vm = this;
         var logError = common.logger.getLogFn(controllerId, 'error');
+        var logSuccess = common.logger.getLogFn(controllerId, 'error');
 
         vm.goBack = goBack;
         vm.cancel = cancel;
+        vm.canSave = canSave();
+        vm.isSaving = false;
         vm.save = save; 
         vm.deleteDrink = deleteDrink; 
         vm.hasChanges = false;
         vm.drink = undefined;   
         vm.title = controllerId;
 
+        Object.defineProperty(vm, 'canSave', {
+            get: canSave
+        });
+
         activate();
 
         function activate() {
+            onHasChanges();
             common.activateController([getRequestedDrink()], controllerId);
         }
 
         function cancel() {
             goBack();
         }
+
+        function canSave() {return vm.hasChanges && !vm.isSaving;}
 
         function deleteDrink() {
             //TODO fill this in
@@ -54,12 +64,32 @@
                 });
         }
 
-        function goBack() { $window.history.back(); }
+        function goBack() {
+            datacontext.cancel();
+            $window.history.back();
+        }
 
         function gotoDrinks() { $location.path('/drinks'); }
 
+        function onHasChanges() {
+            $scope.$on(config.events.hasChangesChanged,
+                function(event, data) {
+                    vm.hasChanges = data.hasChanges;
+                });
+        }
+
         function save() {
-            //TODO: Fill this in
+            if (!canSave()) { return $q.when(null); }
+
+            vm.isSaving = true;
+            return datacontext.saveDrink(vm.drink)
+                .then(function(saveResult) {
+                    vm.isSaving = false;
+                    logSuccess('Save successful!', saveResult, true);
+                }, function (error) {
+                    vm.isSaving = false;    
+                    logError('Error while saving', error, true);
+                });
         }
     }
 })();

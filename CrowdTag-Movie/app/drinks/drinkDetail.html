@@ -17,7 +17,7 @@
                 </button>
                 <button class="btn btn-danger"
                         data-ng-click="vm.deleteDrink()">
-                    <i class="fa fa-trash"></i>Delete
+                    <i class="fa fa-trash-o"></i> Delete
                 </button>
                 <span data-ng-show="vm.hasChanges"
                       class="dissolve-animation ng-hide">
@@ -27,19 +27,33 @@
             <div class="widget wgreen">
                 <div data-cc-widget-header title="Edit {{vm.drink.name || 'New Drink'}}"></div>
                 <div class="widget-content user">
-                    <div>
-                        <label>Name</label><br />
-                        <input data-ng-model="vm.drink.name"
-                               data-z-validate
-                               placeholder="Drink name" />
-                    </div>
-                    <div>
-                        <div>
-                            <label>Description</label><br />
-                            <input data-ng-model="vm.drink.description"
-                                   placeholder="Description" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Details</h5>
+                            <div>
+                                <label>Name</label><br />
+                                <input data-ng-model="vm.drink.name"
+                                       data-z-validate
+                                       placeholder="Drink name" />
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Description</label><br />
+                                    <input data-ng-model="vm.drink.description"
+                                           placeholder="Description" />
+                                </div>
+                            </div> 
                         </div>
-                    </div>     
+                        <div class="col-sm-6">
+                            <h5>Tags</h5>
+                            <div>
+                                <ul>
+                                    <li ng-repeat="tag in vm.drink.tags">{{tag.name}}</li>
+                                </ul>
+                            </div>
+                        </div>                        
+                    </div>
+                        
                     
                 </div>
             </div>

@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function() {
     'use strict';
 
     var app = angular.module('app');
@@ -24,8 +24,12 @@
         del: 46
     };
 
-    // For use with the HotTowel-Angular-Breeze add-on that uses Breeze
+    var apiPrefix = 'api';
+    var api = {
+        drinks: apiPrefix + '/Drinks'
+    };
 
+    // For use with the HotTowel-Angular-Breeze add-on that uses Breeze
     var breezeConfig = {
         entityNamespace: 'CrowdTagDrinks',
         hasServerMetadata: false,
@@ -34,6 +38,7 @@
 
     var events = {
         controllerActivateSuccess: 'controller.activateSuccess',
+        hasChangesChanged: 'hasChangesChanged',
         spinnerToggle: 'spinner.toggle'
     };
 
@@ -43,6 +48,7 @@
     }
 
     var config = {
+        api: api,
         appErrorPrefix: '[CT Error] ', //Configure the exceptionHandler decorator
         breeze: breezeConfig,
         docTitle: 'CrowdTag: ',
