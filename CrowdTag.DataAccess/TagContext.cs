@@ -2,7 +2,7 @@
 using System.Data.Entity.ModelConfiguration.Conventions;
 using CrowdTag.Model;
 
-namespace CrowdTag.DAL
+namespace CrowdTag.DataAccess
 {
 	public class TagContext : DbContext//, IMovieContext
 	{

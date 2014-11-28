@@ -1,7 +1,17 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CrowdTag.Model
 {
+    
+	public interface IUserAddedItemDTO
+	{
+		DateTime? CreatedDateTime { get; set; }
+		DateTime? UpdatedDateTime { get; set; }
+	}
+
+
 	public abstract class UserAddedItem : IUserAddedItemDTO
 	{
 		[Key]

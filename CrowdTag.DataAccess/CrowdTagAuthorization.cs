@@ -1,4 +1,4 @@
-﻿namespace CrowdTag
+﻿namespace CrowdTag.DataAccess
 {
 	public static class CrowdTagAuthorization
 	{

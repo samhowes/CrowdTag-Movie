@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace CrowdTag.DAL
+namespace CrowdTag.DataAccess
 {
 	public interface IRepository<TEntity>
 	 where TEntity : class

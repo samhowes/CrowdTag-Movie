@@ -238,13 +238,6 @@
     <Compile Include="Areas\RouteDebugger\RouteDebuggerConfig.cs" />
     <Compile Include="Controllers\Api\DrinkController.cs" />
     <Compile Include="DTO\IngredientDTO.cs" />
-    <Compile Include="CrowdTagAuthorization.cs" />
-    <Compile Include="DAL\IRepository.cs" />
-    <Compile Include="DAL\TagContext.cs" />
-    <Compile Include="DAL\TagInitializer.cs" />
-    <Compile Include="DAL\Repository.cs" />
-    <Compile Include="DAL\UnitOfWork.cs" />
-    <Compile Include="DAL\CustomRepositories.cs" />
     <Compile Include="DTO\TagCategoryDTO.cs" />
     <Compile Include="DTO\TagDTO.cs" />
     <Compile Include="DTO\TaggedItemDTO.cs" />
@@ -420,12 +413,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="DAL\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrowdTag.DataAccess\CrowdTag.DataAccess.csproj">
+      <Project>{64b94b04-0420-4dab-b7f8-58cccf1857f8}</Project>
+      <Name>CrowdTag.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrowdTag.Model\CrowdTag.Model.csproj">
       <Project>{e2989f37-accc-4293-8c80-e1efc3c7e27a}</Project>
       <Name>CrowdTag.Model</Name>

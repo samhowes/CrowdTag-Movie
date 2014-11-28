@@ -1,4 +1,7 @@
-﻿namespace CrowdTag.Model
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CrowdTag.Model
 {
 	public class TagApplication : UserAddedItem
 	{

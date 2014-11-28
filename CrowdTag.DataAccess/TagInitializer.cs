@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using CrowdTag.Model;
 
-namespace CrowdTag.DAL
+namespace CrowdTag.DataAccess
 {
     public class TagInitializer : CreateDatabaseIfNotExists<TagContext> 
         //DropCreateDatabaseIfModelChanges<TagContext>

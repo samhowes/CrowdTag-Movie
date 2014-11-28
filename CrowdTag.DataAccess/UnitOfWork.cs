@@ -1,7 +1,7 @@
 ﻿using System;
 using CrowdTag.Model;
 
-namespace CrowdTag.DAL
+namespace CrowdTag.DataAccess
 {
 	public class UnitOfWork : IDisposable
 	{

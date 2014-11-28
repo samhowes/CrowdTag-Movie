@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using CrowdTag.Model;
 
-namespace CrowdTag.DAL
+namespace CrowdTag.DataAccess
 {
 	public class UserAddedItemRepository<TEntity> : Repository<TEntity> where TEntity : UserAddedItem
 	{
