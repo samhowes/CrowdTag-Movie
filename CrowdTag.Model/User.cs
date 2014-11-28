@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace CrowdTagMovie.Models
+namespace CrowdTag.Model
 {
 	public class User
 	{

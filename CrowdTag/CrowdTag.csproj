@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CrowdTagMovie</RootNamespace>
+    <RootNamespace>CrowdTag</RootNamespace>
     <AssemblyName>CrowdTag-Movie</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
@@ -253,18 +253,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Exceptions.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="DTO\IUserAddedItem.cs" />
-    <Compile Include="Models\ModelConstant.cs" />
-    <Compile Include="Models\TaggedItem.cs" />
-    <Compile Include="Models\Tag.cs" />
-    <Compile Include="Models\TagApplication.cs" />
-    <Compile Include="Models\TagCategory.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserAddedItem.cs" />
-    <Compile Include="Models\UserRank.cs" />
-    <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DrinkMixer.cs" />
     <Compile Include="Startup.cs" />
@@ -434,6 +424,12 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CrowdTag.Model\CrowdTag.Model.csproj">
+      <Project>{e2989f37-accc-4293-8c80-e1efc3c7e27a}</Project>
+      <Name>CrowdTag.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

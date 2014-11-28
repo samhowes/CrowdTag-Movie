@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CrowdTagMovie.Models
+namespace CrowdTag.Model
 {
     public class BusinessException : Exception
     {

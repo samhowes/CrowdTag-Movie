@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using CrowdTagMovie.DTO;
 
-namespace CrowdTagMovie.Models
+namespace CrowdTag.Model
 {
 	public abstract class UserAddedItem : IUserAddedItemDTO
 	{

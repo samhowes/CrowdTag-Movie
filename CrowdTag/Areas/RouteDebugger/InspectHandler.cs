@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using CrowdTagMovie.Areas.RouteDebugger.Models;
+using CrowdTag.Areas.RouteDebugger.Models;
 
-namespace CrowdTagMovie.Areas.RouteDebugger
+namespace CrowdTag.Areas.RouteDebugger
 {
     /// <summary>
     /// Inspect handler saves route inspect data and handler error.

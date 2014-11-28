@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
-using CrowdTagMovie.DAL;
-using CrowdTagMovie.DTO;
-using CrowdTagMovie.Models;
-using CrowdTagMovie.Services;
+using CrowdTag.DAL;
+using CrowdTag.DTO;
+using CrowdTag.Model;
+using CrowdTag.Services;
 
-namespace CrowdTagMovie.Controllers.Api
+namespace CrowdTag.Controllers.Api
 {
     public class ApiRoute
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CrowdTagMovie.Models;
+using CrowdTag.Model;
 
-namespace CrowdTagMovie.DTO
+namespace CrowdTag.DTO
 {
 	public class IngredientDTO : TagDTO
 	{

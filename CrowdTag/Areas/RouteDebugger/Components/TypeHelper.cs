@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
-namespace CrowdTagMovie.Areas.RouteDebugger.Components
+namespace CrowdTag.Areas.RouteDebugger.Components
 {
     /// <summary>
     /// A static class that provides various <see cref="Type"/> related helpers.

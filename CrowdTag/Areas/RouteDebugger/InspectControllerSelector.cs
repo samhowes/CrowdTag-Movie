@@ -3,9 +3,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
-using CrowdTagMovie.Areas.RouteDebugger.Models;
+using CrowdTag.Areas.RouteDebugger.Models;
 
-namespace CrowdTagMovie.Areas.RouteDebugger
+namespace CrowdTag.Areas.RouteDebugger
 {
     /// <summary>
     /// This class replaces the DefaultHttpControllerSelector (see RouteDebuggerConfig.cs).  

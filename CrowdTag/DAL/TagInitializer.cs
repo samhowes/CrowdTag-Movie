@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using CrowdTagMovie.Models;
+using CrowdTag.Model;
 
-namespace CrowdTagMovie.DAL
+namespace CrowdTag.DAL
 {
     public class TagInitializer : CreateDatabaseIfNotExists<TagContext> 
         //DropCreateDatabaseIfModelChanges<TagContext>

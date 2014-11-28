@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CrowdTagMovie.DTO
+namespace CrowdTag.DTO
 {
 	interface IUserAddedItemDTO
 	{

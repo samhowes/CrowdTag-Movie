@@ -1,4 +1,4 @@
-﻿namespace CrowdTagMovie
+﻿namespace CrowdTag
 {
 	public static class CrowdTagAuthorization
 	{

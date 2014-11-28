@@ -3,7 +3,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Optimization;
 
-namespace CrowdTagMovie.Areas.RouteDebugger
+namespace CrowdTag.Areas.RouteDebugger
 {
     public static class RouteDebuggerConfig
     {

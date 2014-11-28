@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using CrowdTagMovie.DTO;
+using CrowdTag.DTO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CrowdTag.Controllers;
 using System.Web.Mvc;

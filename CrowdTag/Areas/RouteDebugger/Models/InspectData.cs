@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http;
 
-namespace CrowdTagMovie.Areas.RouteDebugger.Models
+namespace CrowdTag.Areas.RouteDebugger.Models
 {
     public class InspectData
     {

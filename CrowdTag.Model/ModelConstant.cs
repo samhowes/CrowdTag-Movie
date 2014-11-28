@@ -1,4 +1,4 @@
-﻿namespace CrowdTagMovie.Models
+﻿namespace CrowdTag.Model
 {
 	public static class ModelConstant
 	{

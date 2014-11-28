@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Hosting;
-using CrowdTagMovie.Areas.RouteDebugger.Components;
+using CrowdTag.Areas.RouteDebugger.Components;
 
-namespace CrowdTagMovie.Areas.RouteDebugger
+namespace CrowdTag.Areas.RouteDebugger
 {
     public static class RequestHelper
     {

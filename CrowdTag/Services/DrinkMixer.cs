@@ -1,8 +1,8 @@
-﻿using CrowdTagMovie.DAL;
-using CrowdTagMovie.DTO;
-using CrowdTagMovie.Models;
+﻿using CrowdTag.DAL;
+using CrowdTag.DTO;
+using CrowdTag.Model;
 
-namespace CrowdTagMovie.Services
+namespace CrowdTag.Services
 {
     public class DrinkMixer
     {

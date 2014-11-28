@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
-using CrowdTagMovie.Areas.RouteDebugger.Models;
+using CrowdTag.Areas.RouteDebugger.Models;
 
-namespace CrowdTagMovie.Areas.RouteDebugger
+namespace CrowdTag.Areas.RouteDebugger
 {
     /// <summary>
     /// Hijacks the original invoker. It examines the header before 

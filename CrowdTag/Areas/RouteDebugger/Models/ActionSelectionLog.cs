@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 
-namespace CrowdTagMovie.Areas.RouteDebugger.Models
+namespace CrowdTag.Areas.RouteDebugger.Models
 {
     /// <summary>
     /// Logs information collected when ActionSelectSimulator.Simulate is called. 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CrowdTagMovie.Models
+namespace CrowdTag.Model
 {
 	public class UserRank
 	{

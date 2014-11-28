@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using CrowdTagMovie.Models;
+using CrowdTag.Model;
 
-namespace CrowdTagMovie.DAL
+namespace CrowdTag.DAL
 {
 	public class TagContext : DbContext//, IMovieContext
 	{

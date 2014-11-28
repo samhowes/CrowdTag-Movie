@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace CrowdTagMovie
+namespace CrowdTag
 {
     public class BundleConfig
     {

@@ -6,7 +6,7 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.ValueProviders;
 using System.Web.Http.ValueProviders.Providers;
 
-namespace CrowdTagMovie.Areas.RouteDebugger.Components
+namespace CrowdTag.Areas.RouteDebugger.Components
 {
     /// <summary>
     /// A copy of HttpParameterBindingExtensions.cs with one change. HttpParameterBindingExtensions.WillReadUri calls the internal

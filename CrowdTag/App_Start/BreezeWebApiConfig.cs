@@ -1,9 +1,9 @@
 using System.Web.Http;
-using CrowdTagMovie;
+using CrowdTag;
 
 [assembly: WebActivator.PreApplicationStartMethod(
     typeof(BreezeWebApiConfig), "RegisterBreezePreStart")]
-namespace CrowdTagMovie {
+namespace CrowdTag {
   ///<summary>
   /// Inserts the Breeze Web API controller route at the front of all Web API routes
   ///</summary>

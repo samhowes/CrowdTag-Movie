@@ -1,6 +1,6 @@
-﻿using CrowdTagMovie.Models;
+﻿using CrowdTag.Model;
 
-namespace CrowdTagMovie.DTO
+namespace CrowdTag.DTO
 {
     public class TagDTO : UserAddedItemDTO
     {

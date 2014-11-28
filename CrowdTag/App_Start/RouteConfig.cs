@@ -1,6 +1,6 @@
 ﻿using System.Web.Routing;
 
-namespace CrowdTagMovie
+namespace CrowdTag
 {
     public class RouteConfig
     {

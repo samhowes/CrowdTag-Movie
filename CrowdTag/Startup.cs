@@ -1,9 +1,9 @@
-﻿using CrowdTagMovie;
+﻿using CrowdTag;
 using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
-namespace CrowdTagMovie
+namespace CrowdTag
 {
     public partial class Startup
     {

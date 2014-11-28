@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace CrowdTagMovie
+namespace CrowdTag
 {
     public static class WebApiConfig
     {

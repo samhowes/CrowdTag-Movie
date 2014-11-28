@@ -1,7 +1,7 @@
 ﻿using System;
-using CrowdTagMovie.Models;
+using CrowdTag.Model;
 
-namespace CrowdTagMovie.DAL
+namespace CrowdTag.DAL
 {
 	public class UnitOfWork : IDisposable
 	{

@@ -1,6 +1,6 @@
 using System.Web.Mvc;
 
-namespace CrowdTagMovie.Areas.RouteDebugger.Controllers
+namespace CrowdTag.Areas.RouteDebugger.Controllers
 {
     public class RouteDebuggerController : Controller
     {

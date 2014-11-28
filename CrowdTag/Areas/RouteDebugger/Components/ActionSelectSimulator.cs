@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using CrowdTagMovie.Areas.RouteDebugger.Models;
+using CrowdTag.Areas.RouteDebugger.Models;
 
-namespace CrowdTagMovie.Areas.RouteDebugger.Components
+namespace CrowdTag.Areas.RouteDebugger.Components
 {
     /// <summary>
     /// Simulate the action selection and record the decision making process.

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using CrowdTagMovie.Models;
+using CrowdTag.Model;
 
-namespace CrowdTagMovie.DAL
+namespace CrowdTag.DAL
 {
 	public class UserAddedItemRepository<TEntity> : Repository<TEntity> where TEntity : UserAddedItem
 	{

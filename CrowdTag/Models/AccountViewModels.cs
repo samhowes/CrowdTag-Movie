@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CrowdTagMovie.Models
+namespace CrowdTag.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

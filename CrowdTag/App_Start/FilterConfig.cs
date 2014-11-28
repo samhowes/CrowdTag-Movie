@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace CrowdTagMovie
+namespace CrowdTag
 {
 	public class FilterConfig
 	{

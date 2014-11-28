@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Web.Http.Controllers;
-using CrowdTagMovie.Areas.RouteDebugger.Components;
+using CrowdTag.Areas.RouteDebugger.Components;
 
-namespace CrowdTagMovie.Areas.RouteDebugger
+namespace CrowdTag.Areas.RouteDebugger
 {
     /// <summary>
     /// This class replaces ApiControllerActionSelector (it's hooked up in RouteDebuggerConfig.cs). 

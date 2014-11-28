@@ -1,4 +1,4 @@
-namespace CrowdTagMovie.Areas.RouteDebugger.Models
+namespace CrowdTag.Areas.RouteDebugger.Models
 {
     public class ControllerSelectionInfo
     {

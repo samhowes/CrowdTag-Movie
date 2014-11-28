@@ -1,7 +1,7 @@
 using System;
 using System.Web.Http.Controllers;
 
-namespace CrowdTagMovie.Areas.RouteDebugger.Models
+namespace CrowdTag.Areas.RouteDebugger.Models
 {
     /// <summary>
     /// Represents the parameters.
