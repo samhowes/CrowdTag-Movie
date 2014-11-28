@@ -37,7 +37,7 @@
             var dataService = new breeze.DataService({
                 hasServerMetadata: hasServerMetadata,
                 serviceName: serviceName,
-                jsonResultsAdapter: model.jsonResultsAdapter
+                //jsonResultsAdapter: model.jsonResultsAdapter
             });
 
             var mgr = new breeze.EntityManager({

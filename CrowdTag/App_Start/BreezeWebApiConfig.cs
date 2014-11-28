@@ -16,7 +16,7 @@ namespace CrowdTag {
     public static void RegisterBreezePreStart() {
       GlobalConfiguration.Configuration.Routes.MapHttpRoute(
           name: "BreezeApi",
-          routeTemplate: "breeze/{controller}/{action}"
+          routeTemplate: "api/breeze/{controller}/{action}"
       );
     }
   }

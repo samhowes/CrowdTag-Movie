@@ -32,8 +32,8 @@
     // For use with the HotTowel-Angular-Breeze add-on that uses Breeze
     var breezeConfig = {
         entityNamespace: 'CrowdTagDrinks',
-        hasServerMetadata: false,
-        remoteServiceName: 'api'
+        hasServerMetadata: true,
+        remoteServiceName: 'api/breeze'
     };
 
     var events = {

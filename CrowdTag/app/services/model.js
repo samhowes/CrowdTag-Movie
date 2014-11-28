@@ -29,18 +29,18 @@
 
         function configureMetadataStore(metadataStore) {
 
-            addDrinkItemType(metadataStore);
-            addTagItemType(metadataStore);
+            registerDrink(metadataStore);
+            //addTagItemType(metadataStore);
             //TODO: add other entities
 
-            metadataStore.setEntityTypeForResourceName('drinks', entityNames.drink);
+            //metadataStore.setEntityTypeForResourceName('Drinks', entityNames.drink);
 
         }
 
-        function addDrinkItemType(metadataStore) {
-
+        function registerDrink(metadataStore) {
+            
             registerDrinkCtor(metadataStore);
-            var drinkItemType = {
+            /*var drinkItemType = {
                 shortName: entityNames.drink,
                 namespace: entityNamespace,
                 dataProperties: {
@@ -59,17 +59,17 @@
                 }
             };
 
-            metadataStore.addEntityType(drinkItemType);
+            metadataStore.addEntityType(drinkItemType);*/
 
             function registerDrinkCtor(mdStore) {
-                
+                metadataStore.registerEntityTypeCtor(entityNames.drink, Drink);
 
                 function Drink() {}
 
                 Object.defineProperty(Drink.prototype, 'tagsFormatted', {
                     get: function () {
-                        if (!this.tags.length) return "";
-                        var names = this.tags.map(function(tag) { return tag.name; });
+                        if (!this.tagApplications.length) return "";
+                        var names = this.tagApplications.map(function(tagApp) { return tagApp.tag.name; });
                         return names.join(', ');
                     }
                 });

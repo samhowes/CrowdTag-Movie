@@ -45,8 +45,8 @@
         }
 
         function gotoDrink(drink) {
-            if (drink && drink.id) {
-                $location.path('/drinks/' + drink.id);
+            if (drink && drink.iD) {
+                $location.path('/drinks/' + drink.iD);
             }
         }
 
