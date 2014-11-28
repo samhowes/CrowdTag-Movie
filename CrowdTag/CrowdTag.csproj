@@ -49,6 +49,9 @@
     <Reference Include="Breeze.ContextProvider">
       <HintPath>..\packages\Breeze.Server.ContextProvider.1.5.0\lib\Breeze.ContextProvider.dll</HintPath>
     </Reference>
+    <Reference Include="Breeze.ContextProvider.EF6">
+      <HintPath>..\packages\Breeze.Server.ContextProvider.EF6.1.5.1\lib\Breeze.ContextProvider.EF6.dll</HintPath>
+    </Reference>
     <Reference Include="Breeze.WebApi2">
       <HintPath>..\packages\Breeze.Server.WebApi2.1.5.0\lib\Breeze.WebApi2.dll</HintPath>
     </Reference>
@@ -236,6 +239,7 @@
     <Compile Include="Areas\RouteDebugger\RequestHelper.cs" />
     <Compile Include="Areas\RouteDebugger\RouteDebuggerAreaRegistration.cs" />
     <Compile Include="Areas\RouteDebugger\RouteDebuggerConfig.cs" />
+    <Compile Include="Controllers\Api\BreezeDrinksController.cs" />
     <Compile Include="Controllers\Api\DrinkController.cs" />
     <Compile Include="DTO\IngredientDTO.cs" />
     <Compile Include="DTO\TagCategoryDTO.cs" />

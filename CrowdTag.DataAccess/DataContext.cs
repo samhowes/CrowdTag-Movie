@@ -5,7 +5,7 @@ namespace CrowdTag.DataAccess
 {
 	public class DataContext : IDisposable
 	{
-		private TagContext _context = new TagContext();
+		private TagDbContext _dbContext = new TagDbContext();
 		private TaggedItemRepository _taggedItemRepository;
 		private Repository<User> _userRepository;
 		private TagCategoryRepository _tagCategoryRepository;
@@ -14,32 +14,32 @@ namespace CrowdTag.DataAccess
 
 		public TaggedItemRepository TaggedItemRepository
 		{
-			get { return _taggedItemRepository ?? (_taggedItemRepository = new TaggedItemRepository(_context)); }
+			get { return _taggedItemRepository ?? (_taggedItemRepository = new TaggedItemRepository(_dbContext)); }
 		}
 		
 		public TagCategoryRepository TagCategoryRepository
 		{
-			get { return _tagCategoryRepository ?? (_tagCategoryRepository = new TagCategoryRepository(_context)); }
+			get { return _tagCategoryRepository ?? (_tagCategoryRepository = new TagCategoryRepository(_dbContext)); }
 		}
 
 		public UserAddedItemRepository<Tag> TagRepository
 		{
-			get { return _tagRepository ?? (_tagRepository = new UserAddedItemRepository<Tag>(_context)); }
+			get { return _tagRepository ?? (_tagRepository = new UserAddedItemRepository<Tag>(_dbContext)); }
 		}
 
 		public Repository<User> UserRepository
 		{
-			get { return _userRepository ?? (_userRepository = new Repository<User>(_context)); }
+			get { return _userRepository ?? (_userRepository = new Repository<User>(_dbContext)); }
 		}
 
 		public UserAddedItemRepository<TagApplication> TagApplicationRepository
 		{
-			get { return _tagApplicationRepository ?? (_tagApplicationRepository = new UserAddedItemRepository<TagApplication>(_context)); }
+			get { return _tagApplicationRepository ?? (_tagApplicationRepository = new UserAddedItemRepository<TagApplication>(_dbContext)); }
 		}
 
 		public void SaveChanges()
 		{
-			_context.SaveChanges();
+			_dbContext.SaveChanges();
 		}
 
 
@@ -50,7 +50,7 @@ namespace CrowdTag.DataAccess
 		{
 			if (!this.disposed && disposing)
 			{
-				_context.Dispose();
+				_dbContext.Dispose();
 			}
 			this.disposed = true;
 		}

@@ -64,6 +64,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="TagContext.cs" />
+    <Compile Include="TagContextProvider.cs" />
+    <Compile Include="TagDbContext.cs" />
     <Compile Include="TagInitializer.cs" />
     <Compile Include="DataContext.cs" />
   </ItemGroup>

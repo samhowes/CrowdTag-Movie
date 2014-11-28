@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrowdTag.Model
 {
-	public class TaggedItem : UserAddedItem
+	public abstract class TaggedItem : UserAddedItem
 	{
 		
 		[Required]

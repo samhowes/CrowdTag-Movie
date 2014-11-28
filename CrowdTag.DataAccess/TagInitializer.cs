@@ -6,11 +6,11 @@ using CrowdTag.Model;
 
 namespace CrowdTag.DataAccess
 {
-    public class TagInitializer : CreateDatabaseIfNotExists<TagContext> 
-        //DropCreateDatabaseIfModelChanges<TagContext>
-        //DropCreateDatabaseAlways<TagContext>
+    public class TagInitializer : CreateDatabaseIfNotExists<TagDbContext> 
+        //DropCreateDatabaseIfModelChanges<TagDbContext>
+        //DropCreateDatabaseAlways<TagDbContext>
     {
-        protected override void Seed(TagContext context)
+        protected override void Seed(TagDbContext dbContext)
         {
             var now = DateTime.Now;
 
@@ -22,8 +22,8 @@ namespace CrowdTag.DataAccess
                 },
             };
 
-            ranks.ForEach(r => context.Ranks.Add(r));
-            context.SaveChanges();
+            ranks.ForEach(r => dbContext.Ranks.Add(r));
+            dbContext.SaveChanges();
             */
 
             var crowdTagBot = new User
@@ -37,8 +37,8 @@ namespace CrowdTag.DataAccess
                 //UserRankID=ranks[0].UserRankID,
             }; 
 
-            context.Users.Add(crowdTagBot);
-            context.SaveChanges();
+            dbContext.Users.Add(crowdTagBot);
+            dbContext.SaveChanges();
             /*
             var movies = new List<TaggedItem>
             {
@@ -92,27 +92,27 @@ namespace CrowdTag.DataAccess
                 }
                 category.Tags = tagList;
 
-                context.TagCategories.Add(category);
+                dbContext.TagCategories.Add(category);
             }
-            context.SaveChanges();
+            dbContext.SaveChanges();
 
-            var drinks = new List<TaggedItem>
+            var drinks = new List<Drink>
             {
-                new TaggedItem{Name="Gin & Tonic",CreatedDateTime=DateTime.Parse("15 December 1995"), Description="An excellent classic drink"},
-                new TaggedItem{Name="Bloody Mary",CreatedDateTime=DateTime.Parse("26 June 2013"), Description="A classic disgusting tomatoey mix"},
-                new TaggedItem{Name="Whiskey and Gingerale",CreatedDateTime=DateTime.Parse("22 July 2012"), Description="An excellent classic drink"},
-                new TaggedItem{Name="Spys Demise",CreatedDateTime=DateTime.Parse("11 August 2011"), Description="A potent concoction"},
-                new TaggedItem{Name="Malibu Bay Breeze",CreatedDateTime=DateTime.Parse("16 November 2010"), Description="Coconutty goodness"},
-                new TaggedItem{Name="Dark and Stormy",CreatedDateTime=DateTime.Parse("31 December 2010"), Description="A classic drink by Gosling"}
+                new Drink{Name="Gin & Tonic",CreatedDateTime=DateTime.Parse("15 December 1995"), Description="An excellent classic drink"},
+                new Drink{Name="Bloody Mary",CreatedDateTime=DateTime.Parse("26 June 2013"), Description="A classic disgusting tomatoey mix"},
+                new Drink{Name="Whiskey and Gingerale",CreatedDateTime=DateTime.Parse("22 July 2012"), Description="An excellent classic drink"},
+                new Drink{Name="Spys Demise",CreatedDateTime=DateTime.Parse("11 August 2011"), Description="A potent concoction"},
+                new Drink{Name="Malibu Bay Breeze",CreatedDateTime=DateTime.Parse("16 November 2010"), Description="Coconutty goodness"},
+                new Drink{Name="Dark and Stormy",CreatedDateTime=DateTime.Parse("31 December 2010"), Description="A classic drink by Gosling"}
             };
 
 
             for (int ii = 0; ii < drinks.Count; ii++)
             {
                 drinks[ii].SubmitterID = crowdTagBot.ID;
-                context.TaggedItems.Add(drinks[ii]);
+                dbContext.Drinks.Add(drinks[ii]);
             }
-            context.SaveChanges();
+            dbContext.SaveChanges();
         }
     }
 }

@@ -55,7 +55,7 @@ namespace CrowdTag.Areas.RouteDebugger.Components
         /// <summary>
         /// Simulating the action selecting process. It mimics the ASP.NET Web API internal logic
         /// </summary>
-        /// <param name="controllerContext">The controller context.</param>
+        /// <param name="controllerContext">The controller dbContext.</param>
         /// <returns>A structure contains the log of selecting process</returns>
         public ActionSelectionLog Simulate(HttpControllerContext controllerContext)
         {

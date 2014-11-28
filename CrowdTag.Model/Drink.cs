@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrowdTag.DataAccess
+namespace CrowdTag.Model
 {
-    public class TagContext
+    public class Drink : TaggedItem
     {
     }
 }

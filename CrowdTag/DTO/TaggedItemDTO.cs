@@ -51,14 +51,14 @@ namespace CrowdTag.DTO
 
         public TaggedItem ToEntity()
         {
-            return new TaggedItem
+            return new Drink
             {
                 Name = this.Name,
                 Description = this.Description
             };
         }
 
-        public void UpdateEntity(ref TaggedItem entity)
+        public void UpdateEntity(ref Drink entity)
         {
             entity.Name = this.Name;
             entity.Description = this.Description;

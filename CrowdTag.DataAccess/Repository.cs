@@ -8,20 +8,20 @@ namespace CrowdTag.DataAccess
 {
 	public class Repository<TEntity> /*: IRepository<TEntity>*/ where TEntity : class
 	{
-		protected TagContext _context;
+		protected TagDbContext _dbContext;
 		protected DbSet<TEntity> dbSet;
 
 		/*
 		public Repository()
 		{
-			this._context = new TagContext();
-			this.dbSet = _context.Set<TEntity>();
+			this._dbContext = new TagDbContext();
+			this.dbSet = _dbContext.Set<TEntity>();
 		}*/
 
-		public Repository(TagContext context)
+		public Repository(TagDbContext dbContext)
 		{
-			this._context = context;
-			this.dbSet = context.Set<TEntity>();
+			this._dbContext = dbContext;
+			this.dbSet = dbContext.Set<TEntity>();
 		}
 
 		public virtual IEnumerable<TEntity> Get(
@@ -63,7 +63,7 @@ namespace CrowdTag.DataAccess
 
 		public virtual void Delete(TEntity entityToDelete)
 		{
-			_context.AttachIfUnattached(entityToDelete);
+			_dbContext.AttachIfUnattached(entityToDelete);
 			dbSet.Remove(entityToDelete);
 		}
 

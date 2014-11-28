@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drink.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="ModelConstant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

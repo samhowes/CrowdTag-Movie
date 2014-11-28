@@ -11,7 +11,7 @@ namespace CrowdTag.DataAccess
 	{
 		//public UserAddedItemRepository() : base() { }
 
-		public UserAddedItemRepository(TagContext movieContext) : base(movieContext)
+		public UserAddedItemRepository(TagDbContext movieDbContext) : base(movieDbContext)
 		{}
 		
 
@@ -46,7 +46,7 @@ namespace CrowdTag.DataAccess
 
 	public class TaggedItemRepository : UserAddedItemRepository<TaggedItem> 
 	{
-		public TaggedItemRepository(TagContext tagContext) : base(tagContext) { }
+		public TaggedItemRepository(TagDbContext tagDbContext) : base(tagDbContext) { }
 
 		public override IEnumerable<TaggedItem> Get(Func<IQueryable<TaggedItem>, IOrderedQueryable<TaggedItem>> orderByFunc = null, Expression<Func<TaggedItem, bool>> filter = null, params Expression<Func<TaggedItem, object>>[] includeExpressions)
 		{
@@ -68,7 +68,7 @@ namespace CrowdTag.DataAccess
 	
 	public class TagCategoryRepository : UserAddedItemRepository<TagCategory>
 	{
-		public TagCategoryRepository(TagContext tagContext) : base(tagContext) { }
+		public TagCategoryRepository(TagDbContext tagDbContext) : base(tagDbContext) { }
 
 		public override IEnumerable<TagCategory> Get(Func<IQueryable<TagCategory>, IOrderedQueryable<TagCategory>> orderByFunc = null, Expression<Func<TagCategory, bool>> filter = null, params Expression<Func<TagCategory, object>>[] includeExpressions)
 		{
@@ -90,7 +90,7 @@ namespace CrowdTag.DataAccess
 
 	public class UserRepository : Repository<User>
 	{
-		public UserRepository(TagContext context) : base(context)
+		public UserRepository(TagDbContext dbContext) : base(dbContext)
 		{ }
 
 		public override void Add(User newEntity)

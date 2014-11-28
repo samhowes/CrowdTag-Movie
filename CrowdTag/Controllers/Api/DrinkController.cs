@@ -133,7 +133,7 @@ namespace CrowdTag.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var entity = new TaggedItem();
+            var entity = new Drink();
             dto.UpdateEntity(ref entity);
             dataContext.TaggedItemRepository.Add(entity);
             dataContext.SaveChanges();
@@ -146,7 +146,7 @@ namespace CrowdTag.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            TaggedItem entity = dataContext.TaggedItemRepository.Update(drinkId);
+            Drink entity = dataContext.TaggedItemRepository.Update(drinkId) as Drink;
             dto.UpdateEntity(ref entity);
             dataContext.SaveChanges();
 
