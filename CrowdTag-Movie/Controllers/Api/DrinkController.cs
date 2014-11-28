@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using CrowdTagMovie.Services;
 
 namespace CrowdTagMovie.Controllers.Api
 {
@@ -98,7 +99,7 @@ namespace CrowdTagMovie.Controllers.Api
     public class DrinkController : ApiController
     {
 
-        private UnitOfWork UoW = new UnitOfWork();
+        private UnitOfWork dataContext = new UnitOfWork();
 
         //===========================================================================================================
         // Drink CRUD of Basic Info
@@ -108,7 +109,7 @@ namespace CrowdTagMovie.Controllers.Api
         [ResponseType(typeof(List<TaggedItemDTO>))]
         public IHttpActionResult GetAllDrinks()
         {
-            var entityList = UoW.TaggedItemRepository.Get();
+            var entityList = dataContext.TaggedItemRepository.Get();
 
             var dtoList = new List<TaggedItemDTO>();
             foreach (var entity in entityList)
@@ -123,7 +124,7 @@ namespace CrowdTagMovie.Controllers.Api
         [ResponseType(typeof(TaggedItemDTO))]
         public IHttpActionResult GetDrinkById(int drinkId)
         {
-            var entity = UoW.TaggedItemRepository.GetById(drinkId);
+            var entity = dataContext.TaggedItemRepository.GetById(drinkId);
 
             if (entity == null) return NotFound();
 
@@ -138,8 +139,8 @@ namespace CrowdTagMovie.Controllers.Api
 
             var entity = new TaggedItem();
             dto.UpdateEntity(ref entity);
-            UoW.TaggedItemRepository.Add(entity);
-            UoW.Commit();
+            dataContext.TaggedItemRepository.Add(entity);
+            dataContext.SaveChanges();
 
             return Created(Url.Link(DrinksApi.Drinks.SpecificItem.Name, new { drinkId = entity.ID }), new TaggedItemDTO(entity));
         }
@@ -149,9 +150,9 @@ namespace CrowdTagMovie.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            TaggedItem entity = UoW.TaggedItemRepository.Update(drinkId);
+            TaggedItem entity = dataContext.TaggedItemRepository.Update(drinkId);
             dto.UpdateEntity(ref entity);
-            UoW.Commit();
+            dataContext.SaveChanges();
 
             return Ok();
         }
@@ -166,8 +167,8 @@ namespace CrowdTagMovie.Controllers.Api
             if (tagId <= 0) return BadRequest("TagId must be a valid Id.");
 
             var entity = new TagApplication { TaggedItemID = drinkId, TagID = tagId };
-            UoW.TagApplicationRepository.Add(entity);
-            UoW.Commit();
+            dataContext.TagApplicationRepository.Add(entity);
+            dataContext.SaveChanges();
 
             return Created(Url.Link(DrinksApi.Drinks.SpecificItem.Name, new { drinkId = drinkId }), (TagDTO)null);
         }
@@ -177,12 +178,12 @@ namespace CrowdTagMovie.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var entity = new IngredientTagApplication { TaggedItemID = drinkId, TagID = newIngredient.Id };
-            newIngredient.UpdateEntity(ref entity);
-            UoW.TagApplicationRepository.Add(entity);
-            UoW.Commit();
+            var drinkMixer = new DrinkMixer(dataContext);
+            var entity = drinkMixer.AddIngredientToDrink(drinkId, newIngredient);
 
-            return Created(Url.Link(DrinksApi.Drinks.SpecificItem.Name, new {drinkId = drinkId}), new IngredientDTO(entity));
+            dataContext.SaveChanges();
+
+            return Ok();
         }
         
         //===========================================================================================================
@@ -193,7 +194,7 @@ namespace CrowdTagMovie.Controllers.Api
         [ResponseType(typeof(List<TagCategoryDTO>))]
         public IHttpActionResult GetAllTagCategories()
         {
-            var entityList = UoW.TagCategoryRepository.Get();
+            var entityList = dataContext.TagCategoryRepository.Get();
 
             var dtoList = new List<TagCategoryDTO>();
             foreach (var entity in entityList)
@@ -208,7 +209,7 @@ namespace CrowdTagMovie.Controllers.Api
         [ResponseType(typeof(TagCategoryDTO))]
         public IHttpActionResult GetTagCategoryById(int categoryId)
         {
-            var entity = UoW.TagCategoryRepository.GetById(categoryId);
+            var entity = dataContext.TagCategoryRepository.GetById(categoryId);
 
             if (entity == null) return NotFound();
 
@@ -223,8 +224,8 @@ namespace CrowdTagMovie.Controllers.Api
 
             var entity = new TagCategory();
             dto.UpdateEntity(ref entity);
-            UoW.TagCategoryRepository.Add(entity);
-            UoW.Commit();
+            dataContext.TagCategoryRepository.Add(entity);
+            dataContext.SaveChanges();
 
             return Created(Url.Link(DrinksApi.TagCategories.SpecificItem.Name, new { categoryId = entity.ID }), new TagCategoryDTO(entity));
         }
@@ -234,9 +235,9 @@ namespace CrowdTagMovie.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var entity = UoW.TagCategoryRepository.Update(categoryId);
+            var entity = dataContext.TagCategoryRepository.Update(categoryId);
             dto.UpdateEntity(ref entity);
-            UoW.Commit();
+            dataContext.SaveChanges();
 
             return Ok();
         }
@@ -249,7 +250,7 @@ namespace CrowdTagMovie.Controllers.Api
         [ResponseType(typeof(List<TagDTO>))]
         public IHttpActionResult GetAllTags(int categoryId)
         {
-            var entityList = UoW.TagRepository.Get();
+            var entityList = dataContext.TagRepository.Get();
 
             var dtoList = new List<TagDTO>();
             foreach (var entity in entityList)
@@ -264,7 +265,7 @@ namespace CrowdTagMovie.Controllers.Api
         [ResponseType(typeof(TagDTO))]
         public IHttpActionResult GetTagById(int categoryId, int tagId)
         {
-            var entity = UoW.TagRepository.GetById(tagId);
+            var entity = dataContext.TagRepository.GetById(tagId);
 
             if (entity == null) return NotFound();
 
@@ -282,8 +283,8 @@ namespace CrowdTagMovie.Controllers.Api
             
             entity.CategoryID = categoryId;
 
-            UoW.TagRepository.Add(entity);
-            UoW.Commit();
+            dataContext.TagRepository.Add(entity);
+            dataContext.SaveChanges();
 
             return Created(Url.Link(DrinksApi.Tags.SpecificItem.Name, new { tagId = entity.ID }), new TagDTO(entity));
         }
@@ -293,10 +294,10 @@ namespace CrowdTagMovie.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            Tag entity = UoW.TagRepository.Update(tagId);
+            Tag entity = dataContext.TagRepository.Update(tagId);
             dto.UpdateEntity(ref entity);
 
-            UoW.Commit();
+            dataContext.SaveChanges();
             return Ok();
         }
         

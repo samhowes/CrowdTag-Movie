@@ -253,6 +253,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Exceptions.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="DTO\IUserAddedItem.cs" />
     <Compile Include="Models\ModelConstant.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Models\UserRank.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DrinkMixer.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -39,7 +39,7 @@ namespace CrowdTagMovie.DAL
 			get { return _tagApplicationRepository ?? (_tagApplicationRepository = new UserAddedItemRepository<TagApplication>(_context)); }
 		}
 
-		public void Commit()
+		public void SaveChanges()
 		{
 			_context.SaveChanges();
 		}
