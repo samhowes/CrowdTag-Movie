@@ -55,7 +55,7 @@
     <Compile Include="Repository.cs" />
     <Compile Include="TagContext.cs" />
     <Compile Include="TagInitializer.cs" />
-    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="DataContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrowdTag.Model\CrowdTag.Model.csproj">

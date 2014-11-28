@@ -95,7 +95,7 @@ namespace CrowdTag.Controllers.Api
     public class DrinkController : ApiController
     {
 
-        private UnitOfWork dataContext = new UnitOfWork();
+        private DataContext dataContext = new DataContext();
 
         //===========================================================================================================
         // Drink CRUD of Basic Info

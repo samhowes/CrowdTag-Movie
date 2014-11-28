@@ -6,9 +6,9 @@ namespace CrowdTag.Services
 {
     public class DrinkMixer
     {
-        private UnitOfWork _dataContext;
+        private DataContext _dataContext;
 
-        public DrinkMixer(UnitOfWork dataContext)
+        public DrinkMixer(DataContext dataContext)
         {
             this._dataContext = dataContext;
         }

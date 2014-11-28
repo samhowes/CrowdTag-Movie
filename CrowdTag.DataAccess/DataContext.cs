@@ -3,7 +3,7 @@ using CrowdTag.Model;
 
 namespace CrowdTag.DataAccess
 {
-	public class UnitOfWork : IDisposable
+	public class DataContext : IDisposable
 	{
 		private TagContext _context = new TagContext();
 		private TaggedItemRepository _taggedItemRepository;
