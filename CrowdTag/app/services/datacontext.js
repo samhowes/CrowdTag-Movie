@@ -62,16 +62,7 @@
 
         function getDrinkById(id, forceRemote) {
             var entityName = entityNames.drink;
-            /*
-            if (!forceRemote) {
-                var entity = manager.getEntityByKey(entityName, id);
-
-                if (entity) {
-                    logSuccess('Retrieved [' + entityName + '] id: ' + id + ' from cache.', entity, true);
-                    return $q.when(entity);
-                }
-            }
-            */
+            
             return manager.fetchEntityByKey(entityName, id, !forceRemote)
                 .then(querySucceded, queryFailed);
 
