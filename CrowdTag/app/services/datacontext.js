@@ -16,6 +16,7 @@
         var logError = getLogFn(serviceId, 'error'); //error
         var logSuccess = getLogFn(serviceId, 'success');
         var manager = emFactory.newManager();
+        var primePromise = undefined;
         var $q = common.$q;
 
         var service = {
@@ -24,8 +25,8 @@
             getPeople: getPeople,
             getMessageCount: getMessageCount,
             getDrinkById: getDrinkById,
-            save: save,
-            saveDrink: saveDrink
+            prime: prime,
+            save: save
         };
 
         init();
@@ -61,7 +62,7 @@
 
         function getDrinkById(id, forceRemote) {
             var entityName = entityNames.drink;
-
+            /*
             if (!forceRemote) {
                 var entity = manager.getEntityByKey(entityName, id);
 
@@ -70,20 +71,20 @@
                     return $q.when(entity);
                 }
             }
-
-            return breeze.EntityQuery
-                .from(String.format('Drinks/{0}', id))
-                .using(manager)
-                .execute()
+            */
+            return manager.fetchEntityByKey(entityName, id, !forceRemote)
                 .then(querySucceded, queryFailed);
 
             function querySucceded(data) {
-                if (!(data.results.length > 0)) {
+                if (!data.entity) {
                     logError('Could not find [' + entityName + '] id:' + id, null, true);
                 }
 
-                var entity = data.results[0];
-                return entity;
+                if (data.fromCache) {
+                    logSuccess('Retrieved [' + entityName + '] id: ' + id + ' from cache.', data.entity, true);
+                }
+
+                return data.entity;
             }
         }
 
@@ -106,6 +107,44 @@
             });
         }
 
+        function prime() {
+            if (primePromise) return primePromise;
+
+            primePromise = $q.all([manager.fetchMetadata(function() { log('Retrieved metadata!', true); })])
+                .then(extendMetadata);
+
+            return primePromise.then(success);
+
+            function success() {
+                log('Primed the data', true);
+            }
+
+            function extendMetadata() {
+                var metadataStore = manager.metadataStore;
+
+                registerResourceNames(metadataStore);
+            }
+
+            function registerResourceNames(metadataStore) {
+                var drinkType = metadataStore.getEntityType(entityNames.drink);
+                var drinkResourceName = 'Drinks';
+
+                set(drinkResourceName, drinkType);  
+
+                var types = metadataStore.getEntityTypes();
+
+                types.forEach(function (type) {
+                    if (type instanceof breeze.EntityType) {
+                        set(type.shortName, type);
+                    }
+                })
+
+                function set(resourceName, entityType) {
+                    metadataStore.setEntityTypeForResourceName(resourceName, entityType);
+                }
+            }
+        }
+
         function queryFailed(error) {
             var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
             logError(msg, error);
@@ -126,17 +165,6 @@
                 logError(msg, error);
                 throw error;
             }
-        }
-
-        function saveDrink(drink) {
-            if (!drink) throw new { name: 'ArgumentNullException' };
-
-            return resources.Drinks.save(drink)
-                .$promise
-                .then(function(response) {
-                    logSuccess('Saved [Drink] successfully!', response, true);
-                });
-
         }
     }
 })();

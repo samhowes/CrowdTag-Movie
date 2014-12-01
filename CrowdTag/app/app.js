@@ -20,7 +20,8 @@
     ]);
     
     // Handle routing errors and success events
-    app.run(['$route',  function ($route) {
-            // Include $route to kick start the router.
-        }]);        
+    app.run(['$route', 'datacontext',  function ($route, datacontext) {
+        // Include $route to kick start the router.
+        datacontext.prime();
+    }]);        
 })();

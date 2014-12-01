@@ -13,7 +13,7 @@
         /* jshint validthis:true */
         var vm = this;
         var logError = common.logger.getLogFn(controllerId, 'error');
-        var logSuccess = common.logger.getLogFn(controllerId, 'error');
+        var logSuccess = common.logger.getLogFn(controllerId, 'success');
 
         vm.goBack = goBack;
         vm.cancel = cancel;
@@ -82,13 +82,11 @@
             if (!canSave()) { return $q.when(null); }
 
             vm.isSaving = true;
-            return datacontext.saveDrink(vm.drink)
+            return datacontext.save()
                 .then(function(saveResult) {
                     vm.isSaving = false;
-                    logSuccess('Save successful!', saveResult, true);
                 }, function (error) {
-                    vm.isSaving = false;    
-                    logError('Error while saving', error, true);
+                    vm.isSaving = false;
                 });
         }
     }
