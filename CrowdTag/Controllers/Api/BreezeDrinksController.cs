@@ -31,7 +31,8 @@ namespace CrowdTag.Controllers.Api
         {
             return _contextProvider.Context.Drinks
                 .AsQueryable()
-                .Include(d => d.TagApplications.Select(ta => ta.Tag));
+                .Include(d => d.TagApplications.Select(ta => ta.Tag))
+                .Include(d => d.Recipe.Select(ia => ia.Ingredient));
         }
 
         [HttpPost, Route("SaveChanges")]

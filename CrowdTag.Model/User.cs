@@ -7,7 +7,7 @@ namespace CrowdTag.Model
 	public class User
 	{
 		[MaxLength(ModelConstant.StringLength.GUID)]
-		public string ID { get; set; }
+		public string Id { get; set; }
 
 
 		[Required]

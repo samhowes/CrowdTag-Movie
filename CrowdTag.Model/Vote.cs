@@ -9,9 +9,9 @@ namespace CrowdTag.Model
 		public bool IsUpvote { get; set; }
 
 		[Required]
-		[ForeignKey("TagApplication")]
+		[ForeignKey("TagApplicationBase")]
 		public int? TagApplicationID { get; set; }
 
-		public virtual TagApplication TagApplication { get; set; }
+		public virtual TagApplication TagApplicationBase { get; set; }
 	}
 }

@@ -28,7 +28,7 @@
                 <div data-cc-widget-header title="Edit {{vm.drink.name || 'New Drink'}}"></div>
                 <div class="widget-content user">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <h5>Details</h5>
                             <div>
                                 <label>Name</label><br />
@@ -42,19 +42,34 @@
                                     <input data-ng-model="vm.drink.description"
                                            placeholder="Description" />
                                 </div>
-                            </div> 
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <h5>Tags</h5>
+                        
+                        <div class="col-sm-4">
                             <div>
-                                <ul>
-                                    <li ng-repeat="tagApp in vm.drink.tagApplications">{{tagApp.tag.name}}</li>
-                                </ul>
+                                <h5>Recipe</h5>
+                                <div>
+                                    <ul>
+                                        <li ng-repeat="ingredientApp in vm.drink.recipe">{{ingredientApp.ingredient.name}}</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>                        
+
+                        <div class="col-sm-4">
+                            <div>
+                                <h5>Tags</h5>
+                                <div>
+                                    <ul>
+                                        <li ng-repeat="tagApp in vm.drink.tagApplications">{{tagApp.tag.name}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                        
-                    
+
+
                 </div>
             </div>
         </div>

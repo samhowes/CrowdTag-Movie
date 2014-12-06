@@ -6,7 +6,7 @@ using CrowdTag.Model;
 
 namespace CrowdTag.DataAccess
 {
-    public class TagInitializer : CreateDatabaseIfNotExists<TagDbContext> 
+    public class TagInitializer : DropCreateDatabaseAlways<TagDbContext> 
         //DropCreateDatabaseIfModelChanges<TagDbContext>
         //DropCreateDatabaseAlways<TagDbContext>
     {
@@ -28,7 +28,7 @@ namespace CrowdTag.DataAccess
 
             var crowdTagBot = new User
             {
-                ID = "a95d0b81-3245-4d7e-a429-64d2c07d412b",
+                Id = "a95d0b81-3245-4d7e-a429-64d2c07d412b",
                 Username="CrowdTagBot",
                 Score=0,
                 Email="Noreply@CrowdTag.com",
@@ -53,17 +53,17 @@ namespace CrowdTag.DataAccess
             };*/
 
             var date = DateTime.Now;
-            var ingredients = new List<string>{"Gin", "Tonic", "Vodka", "Whiskey", "Gingerale", "Burbon", "Scotch", "CranberryJuice"};
+            
             var genres = new List<string> {"Fruity", "Manly", "Girly", "Stiff", "Classic"};
             var classifications = new List<string> {"Martini", "Shooter", "Shot", "Margarita"};
             var usages = new List<string> {"OnTheRocks", "Frozen", "Flaming"};
 
             var tagCategories = new List<TagCategory>
             {
-                new TagCategory
-                {
-                    Name = "Ingredient",Description = "An item used to make a drink", Tags = ingredients.Select(i => new Tag{Name = i}).ToList()
-                },
+                //new TagCategory
+                //{
+                //    Name = "Ingredient",Description = "An item used to make a drink", Tags = ingredients.Select(i => new Tag{Name = i}).ToList()
+                //},
                 new TagCategory
                 {
                     Name = "Genre", Description = "Fruity or Manly?", Tags = genres.Select(i => new Tag{Name = i}).ToList()
@@ -81,13 +81,13 @@ namespace CrowdTag.DataAccess
             for (int ii = 0; ii < tagCategories.Count; ++ii)
             {
                 var category = tagCategories[ii];
-                category.SubmitterID = crowdTagBot.ID;
+                category.SubmitterId = crowdTagBot.Id;
                 category.CreatedDateTime = date;
                 var tagList = category.Tags.ToList();
 
                 for (int jj = 0; jj < tagList.Count; ++jj)
                 {
-                    tagList[jj].SubmitterID = crowdTagBot.ID;
+                    tagList[jj].SubmitterId = crowdTagBot.Id;
                     tagList[jj].CreatedDateTime = date;
                 }
                 category.Tags = tagList;
@@ -95,6 +95,17 @@ namespace CrowdTag.DataAccess
                 dbContext.TagCategories.Add(category);
             }
             dbContext.SaveChanges();
+
+            var ingredients = new List<string> { "Gin", "Tonic", "Vodka", "Whiskey", "Gingerale", "Burbon", "Scotch", "CranberryJuice" };
+            var ingredientEntities = ingredients.Select(name =>
+                new Ingredient
+                {
+                    SubmitterId = crowdTagBot.Id,
+                    CreatedDateTime = date,
+                    Name = name
+                }).ToList();
+
+            dbContext.Ingredients.AddRange(ingredientEntities);
 
             var drinks = new List<Drink>
             {
@@ -109,10 +120,37 @@ namespace CrowdTag.DataAccess
 
             for (int ii = 0; ii < drinks.Count; ii++)
             {
-                drinks[ii].SubmitterID = crowdTagBot.ID;
+                drinks[ii].SubmitterId = crowdTagBot.Id;
                 dbContext.Drinks.Add(drinks[ii]);
             }
             dbContext.SaveChanges();
+
+            var ginAndTonic = drinks[0];
+            var gin = ingredientEntities[0];
+            var tonic = ingredientEntities[1];
+
+            ginAndTonic.Recipe.Add(new IngredientApplication()
+            {
+                SubmitterId = crowdTagBot.Id,
+                CreatedDateTime = date,
+                Amount = (decimal?)1.5,
+                MeasurementType = MeasurementTypeEnum.Ounce,
+                Ingredient = gin
+            });
+
+            ginAndTonic.Recipe.Add(new IngredientApplication()
+            {
+                SubmitterId = crowdTagBot.Id,
+                CreatedDateTime = date,
+                Amount = (decimal?)1,
+                MeasurementType = MeasurementTypeEnum.Fill,
+                Ingredient = tonic
+            });
+
+
+
+            dbContext.SaveChanges();
+
         }
     }
 }

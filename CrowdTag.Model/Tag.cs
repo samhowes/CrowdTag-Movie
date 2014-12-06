@@ -9,7 +9,7 @@ namespace CrowdTag.Model
 		public string Name { get; set; }
 
 		[ForeignKey("Category")]
-		public int? CategoryID { get; set; }
+		public int? CategoryId { get; set; }
 
 		public virtual TagCategory Category { get; set; }
 	}

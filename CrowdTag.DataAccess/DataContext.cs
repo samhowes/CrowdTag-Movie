@@ -10,7 +10,7 @@ namespace CrowdTag.DataAccess
 		private Repository<User> _userRepository;
 		private TagCategoryRepository _tagCategoryRepository;
 		private UserAddedItemRepository<Tag> _tagRepository;
-		private UserAddedItemRepository<TagApplication> _tagApplicationRepository;
+        private UserAddedItemRepository<TagApplication> _tagApplicationRepository;
 
 		public TaggedItemRepository TaggedItemRepository
 		{
@@ -34,7 +34,7 @@ namespace CrowdTag.DataAccess
 
 		public UserAddedItemRepository<TagApplication> TagApplicationRepository
 		{
-			get { return _tagApplicationRepository ?? (_tagApplicationRepository = new UserAddedItemRepository<TagApplication>(_dbContext)); }
+            get { return _tagApplicationRepository ?? (_tagApplicationRepository = new UserAddedItemRepository<TagApplication>(_dbContext)); }
 		}
 
 		public void SaveChanges()

@@ -24,23 +24,30 @@ namespace CrowdTag.DataAccess
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
 
-        //public DbSet<TaggedItem> TaggedItems { get; set; }
-
-        public DbSet<TagApplication> TagApplications { get; set; }
-
-        public DbSet<IngredientTagApplication> IngredientTagApplications { get; set; }
-
-        public DbSet<TagCategory> TagCategories { get; set; }
-
         public DbSet<User> Users { get; set; }
 
         public DbSet<Drink> Drinks { get; set; }
+
+        public DbSet<Ingredient> Ingredients { get; set; }
+
+        public DbSet<IngredientApplication> IngredientApplications { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<TagCategory> TagCategories { get; set; }
+
+        public DbSet<TagApplication> TagApplications { get; set; }
+
+        
+        
+        //Future improvement:
+        //public DbSet<TaggedItem> TaggedItems { get; set; }
 
         //public DbSet<UserRank> Ranks { get; set; }
 
         //public DbSet<Vote> Votes { get; set; }
 
-
+        //public DbSet<IngredientTagApplication> IngredientTagApplications { get; set; }
         public void AttachIfUnattached(object entityToAttach)
         {
             if (this.Entry(entityToAttach).State == EntityState.Detached)

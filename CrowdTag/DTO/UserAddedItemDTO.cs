@@ -10,7 +10,7 @@ namespace CrowdTag.DTO
 
 		public UserAddedItemDTO(UserAddedItem entity)
 		{
-			this.Id = entity.ID;
+			this.Id = entity.Id;
 			this.CreatedDateTime = entity.CreatedDateTime;
 			this.UpdatedDateTime = entity.UpdatedDateTime;
 

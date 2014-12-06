@@ -12,7 +12,7 @@ namespace CrowdTag.DTO
 		public MeasurementTypeEnum? MeasurementType { get; set; }
 
 
-		public IngredientDTO(IngredientTagApplication entity) : base(entity)
+		public IngredientDTO(IngredientApplication entity) 
 		{
 			this.Amount = entity.Amount;
 			this.MeasurementType = entity.MeasurementType;
@@ -20,7 +20,7 @@ namespace CrowdTag.DTO
 
 		public IngredientDTO() : base() { }
 
-		public void UpdateEntity(ref IngredientTagApplication entity) 
+		public void UpdateEntity(ref IngredientApplication entity) 
 		{
 			entity.Amount = this.Amount;
 			entity.MeasurementType = this.MeasurementType;

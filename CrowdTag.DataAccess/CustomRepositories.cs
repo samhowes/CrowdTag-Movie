@@ -17,7 +17,7 @@ namespace CrowdTag.DataAccess
 
 		public override void Add(TEntity newEntity)
 		{
-			newEntity.SubmitterID = CrowdTagAuthorization.GetCurrentUserId();
+			newEntity.SubmitterId = CrowdTagAuthorization.GetCurrentUserId();
 			newEntity.CreatedDateTime = DateTime.Now;
 			base.Add(newEntity);
 		}

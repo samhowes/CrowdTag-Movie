@@ -13,16 +13,16 @@ namespace CrowdTag.Services
             this._dataContext = dataContext;
         }
 
-        public IngredientTagApplication AddIngredientToDrink(int drinkId, IngredientDTO ingredient)
+        public IngredientApplication AddIngredientToDrink(int drinkId, IngredientDTO ingredient)
         {
             var drink = _dataContext.TaggedItemRepository.GetById(drinkId);
             var tag = _dataContext.TagRepository.GetById(ingredient.Id);
 
             if (drink == null) throw new DbItemNotFoundException(typeof (TaggedItem), drinkId);
 
-            var newEntity = new IngredientTagApplication {TaggedItemID = drinkId,TagID = ingredient.Id};
+            var newEntity = new IngredientApplication {DrinkId = drinkId, IngredientId = ingredient.Id};
             ingredient.UpdateEntity(ref newEntity);
-            _dataContext.TagApplicationRepository.Add(newEntity);
+           // _dataContext.TagApplicationRepository.Add(newEntity);
 
             return newEntity;
         }

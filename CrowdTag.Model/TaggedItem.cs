@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CrowdTag.Model
 {
@@ -15,8 +16,8 @@ namespace CrowdTag.Model
 		[Required,StringLength(ModelConstant.StringLength.FreeText, ErrorMessage = "Description must be at least 3 characters")]
 		public string Description { get; set; }
 
-
+        
 		public virtual ICollection<TagApplication> TagApplications { get; set; }
-		
+
 	}
 }

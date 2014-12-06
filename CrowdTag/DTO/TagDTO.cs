@@ -14,15 +14,15 @@ namespace CrowdTag.DTO
 
         public TagDTO(TagApplication entity) : this(entity.Tag)
         {
-            this.TaggedItemId = entity.TaggedItemID;
-            this.Id = entity.ID;
+            this.TaggedItemId = entity.TaggedItemId;
+            this.Id = entity.Id;
         }
 
         public TagDTO(Tag entity)
             : base(entity)
         {
             this.Name = entity.Name;
-            this.CategoryId = entity.CategoryID;
+            this.CategoryId = entity.CategoryId;
         }
 
 

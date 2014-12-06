@@ -5,23 +5,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CrowdTag.Model
 {
     
-	public interface IUserAddedItemDTO
+	public interface IUserAddedItemDto
 	{
 		DateTime? CreatedDateTime { get; set; }
 		DateTime? UpdatedDateTime { get; set; }
 	}
 
 
-	public abstract class UserAddedItem : IUserAddedItemDTO
+	public abstract class UserAddedItem : IUserAddedItemDto
 	{
 		[Key]
-		public int ID { get; set; }
+		public virtual int Id { get; set; }
 
 
 		[Required]
 		[ForeignKey("Submitter")]
 		[MaxLength(ModelConstant.StringLength.GUID)]
-		public String SubmitterID { get; set; }
+		public String SubmitterId { get; set; }
 
 
 		[Required]

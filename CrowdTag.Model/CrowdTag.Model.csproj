@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Drink.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Ingredient.cs" />
+    <Compile Include="IngredientApplication.cs" />
     <Compile Include="ModelConstant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tag.cs" />

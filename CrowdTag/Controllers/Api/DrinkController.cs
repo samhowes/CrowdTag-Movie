@@ -138,7 +138,7 @@ namespace CrowdTag.Controllers.Api
             dataContext.TaggedItemRepository.Add(entity);
             dataContext.SaveChanges();
 
-            return Created(Url.Link(DrinksApi.Drinks.SpecificItem.Name, new { drinkId = entity.ID }), new TaggedItemDTO(entity));
+            return Created(Url.Link(DrinksApi.Drinks.SpecificItem.Name, new { drinkId = entity.Id }), new TaggedItemDTO(entity));
         }
 
         [HttpPut, Route(DrinksApi.Drinks.SpecificItem.Route)]
@@ -162,7 +162,7 @@ namespace CrowdTag.Controllers.Api
         {
             if (tagId <= 0) return BadRequest("TagId must be a valid Id.");
 
-            var entity = new TagApplication { TaggedItemID = drinkId, TagID = tagId };
+            var entity = new TagApplication { TaggedItemId = drinkId, TagId = tagId };
             dataContext.TagApplicationRepository.Add(entity);
             dataContext.SaveChanges();
 
@@ -223,7 +223,7 @@ namespace CrowdTag.Controllers.Api
             dataContext.TagCategoryRepository.Add(entity);
             dataContext.SaveChanges();
 
-            return Created(Url.Link(DrinksApi.TagCategories.SpecificItem.Name, new { categoryId = entity.ID }), new TagCategoryDTO(entity));
+            return Created(Url.Link(DrinksApi.TagCategories.SpecificItem.Name, new { categoryId = entity.Id }), new TagCategoryDTO(entity));
         }
 
         [HttpPut, Route(DrinksApi.TagCategories.SpecificItem.Route)]
@@ -277,12 +277,12 @@ namespace CrowdTag.Controllers.Api
             var entity = new Tag();
             dto.UpdateEntity(ref entity);
             
-            entity.CategoryID = categoryId;
+            entity.CategoryId = categoryId;
 
             dataContext.TagRepository.Add(entity);
             dataContext.SaveChanges();
 
-            return Created(Url.Link(DrinksApi.Tags.SpecificItem.Name, new { tagId = entity.ID }), new TagDTO(entity));
+            return Created(Url.Link(DrinksApi.Tags.SpecificItem.Name, new { tagId = entity.Id }), new TagDTO(entity));
         }
 
         [HttpPut, Route(DrinksApi.Tags.SpecificItem.Route)]

@@ -36,14 +36,9 @@ namespace CrowdTag.DTO
             this.Recipe = new List<IngredientDTO>();
             foreach (var tagApp in entity.TagApplications)
             {
-                if (tagApp is IngredientTagApplication)
-                {
-                    this.Recipe.Add(new IngredientDTO(tagApp as IngredientTagApplication));
-                }
-                else
-                {
+               
                     this.Tags.Add(new TagDTO(tagApp));
-                }
+               
 
             }
         }
