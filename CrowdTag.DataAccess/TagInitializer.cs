@@ -7,12 +7,12 @@ using CrowdTag.Model;
 namespace CrowdTag.DataAccess
 {
     public class TagInitializer : 
-        //CreateDatabaseIfNotExists<TagDbContext> 
+        CreateDatabaseIfNotExists<TagDbContext> 
         //DropCreateDatabaseIfModelChanges<TagDbContext>
-        DropCreateDatabaseAlways<TagDbContext>
+        //DropCreateDatabaseAlways<TagDbContext>
     {
         private User crowdTagBot;
-        private DateTime now = DateTime.Now;
+        private readonly DateTime now = DateTime.Now;
 
         protected override void Seed(TagDbContext tagContext)
         {

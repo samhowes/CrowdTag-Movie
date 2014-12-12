@@ -22,6 +22,7 @@
         vm.cancel = cancel;
         vm.canSave = canSave();
         vm.isSaving = false;
+        vm.removeIngredient = removeIngredient;
         vm.save = save; 
         vm.deleteDrink = deleteDrink; 
         vm.hasChanges = false;
@@ -110,6 +111,17 @@
                 function(event, data) {
                     vm.hasChanges = data.hasChanges;
                 });
+        }
+
+        function removeIngredient(ingredientApplication) {
+            var text = 'Ingredient: ' + ingredientApplication.ingredient.name;
+            return bsDialog.deleteDialog(text)
+                .then(confirmDelete);
+
+            function confirmDelete() {
+                ingredientApplication.drink = null; // hide from the view
+                datacontext.markDeleted(ingredientApplication);
+            }
         }
 
         function save() {

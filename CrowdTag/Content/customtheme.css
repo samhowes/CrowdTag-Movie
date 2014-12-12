@@ -227,6 +227,14 @@ a.btn {
         background: #d82829 !important;
     }
 
+    .text-danger {
+    color: #fa3031 !important;
+}
+
+    .text-danger:hover {
+        color: #d82829 !important;
+    }
+
 /* Label colors */
 
 .label.label-success,

@@ -49,7 +49,14 @@
                             <div>
                                 <h5>Recipe</h5>
                                 <ul>
-                                    <li ng-repeat="ingredientApp in vm.drink.recipe">{{ingredientApp.amountFormatted}}: {{ingredientApp.ingredient.name}}</li>
+                                    <li ng-repeat="ingredientApp in vm.drink.recipe">
+                                        
+                                        {{ingredientApp.amountFormatted}}: {{ingredientApp.ingredient.name}}
+                                        <a class="pull-right text-danger" title="Remove" ng-click="vm.removeIngredient(ingredientApp)">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                        
+                                    </li>
                                 </ul>
                                 <button class="btn btn-success" data-ng-click="vm.addIngredient()">
                                     <i class="fa fa-plus"></i> Add Ingredient

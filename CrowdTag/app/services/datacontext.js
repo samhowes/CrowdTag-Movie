@@ -90,12 +90,6 @@
             return manager.createEntity(entityName);
         }
 
-        function interceptEntityCreation(creationArgs) {
-            var entity = creationArgs.entity;
-            entity.submitter = currentUser;
-            entity.createdDateTime = Date();
-        }
-
         function getLookups() {
             return _getEntities(null, exceptionalResources.lookups)
                 .then(success, _queryFailed);
@@ -186,6 +180,12 @@
             return getEntities(entityNames.ingredient, forceRefresh);
         }
         
+        function interceptEntityCreation(creationArgs) {
+            var entity = creationArgs.entity;
+            entity.submitter = currentUser;
+            entity.createdDateTime = Date();
+        }
+
         function markDeleted(entity) {
             entity.entityAspect.setDeleted();
         }
@@ -265,8 +265,9 @@
 
         function setupEventForEntityCreated() {
             manager.entityChanged.subscribe(function(changeArgs) {
-                var entityAction = changeArgs.entityAction;
-                if (entityAction === breeze.EntityAction.EntityStateChange && entityAction.isAttach()) {
+                var entityAspect = changeArgs.entity.entityAspect;
+                if (changeArgs.entityAction === breeze.EntityAction.Attach &&
+                    entityAspect.entityState === breeze.EntityState.Added) {
                     interceptEntityCreation(changeArgs);
                 }
             });
