@@ -35,6 +35,22 @@ namespace CrowdTag.Controllers.Api
                 .Include(d => d.Recipe.Select(ia => ia.Ingredient));
         }
 
+        [HttpGet, Route("Ingredients")]
+        public IQueryable<Ingredient> Ingredients()
+        {
+            return _contextProvider.Context.Ingredients
+                .AsQueryable()
+                .Include(i => i.Category);
+        }
+
+        [HttpGet, Route("Lookups")]
+        public object Lookups()
+        {
+            var measurementTypes = _contextProvider.Context.MeasurementTypes.AsQueryable();
+            var users = _contextProvider.Context.Users.AsQueryable();
+            return new {measurementTypes, users};
+        }
+
         [HttpPost, Route("SaveChanges")]
         public SaveResult SaveChanges(JObject saveBundle)
         {

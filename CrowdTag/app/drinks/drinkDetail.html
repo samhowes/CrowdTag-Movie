@@ -48,11 +48,12 @@
                         <div class="col-sm-4">
                             <div>
                                 <h5>Recipe</h5>
-                                <div>
-                                    <ul>
-                                        <li ng-repeat="ingredientApp in vm.drink.recipe">{{ingredientApp.ingredient.name}}</li>
-                                    </ul>
-                                </div>
+                                <ul>
+                                    <li ng-repeat="ingredientApp in vm.drink.recipe">{{ingredientApp.amountFormatted}}: {{ingredientApp.ingredient.name}}</li>
+                                </ul>
+                                <button class="btn btn-success" data-ng-click="vm.addIngredient()">
+                                    <i class="fa fa-plus"></i> Add Ingredient
+                                </button>
                             </div>
                         </div>                        
 

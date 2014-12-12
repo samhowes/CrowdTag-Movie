@@ -13,7 +13,12 @@
         
         var entityNames = {
             drink: 'Drink',
-            tag: 'Tag'
+            tag: 'Tag',
+            tagApplication: 'TagApplication',
+            ingredientApplication: 'IngredientApplication',
+            ingredient: 'Ingredient',
+            measurementType: 'MeasurementType',
+            user: 'User'
         };
 
         var service = {
@@ -25,7 +30,7 @@
 
         function configureMetadataStore(metadataStore) {
             registerDrink(metadataStore);
-
+            registerIngredientApplication(metadataStore);
             //metadataStore.setEntityTypeForResourceName('Drinks', entityNames.drink);
 
         }
@@ -45,6 +50,30 @@
             });
 
 
+        }
+
+        function registerIngredientApplication(metadataStore) {
+
+            metadataStore.registerEntityTypeCtor(entityNames.ingredientApplication, IngredientApplication);
+
+            function IngredientApplication() { }
+
+            Object.defineProperty(IngredientApplication.prototype, 'amountFormatted', {
+                get: function() {
+                    var display;
+                    
+                    if (!this.measurementType) {
+                        display = '';
+                    } else if (!this.amount) {
+                        display = this.measurementType.name;
+                    } else {
+                        display = this.amount + " " + this.measurementType.name;
+                    }
+
+                    return display;
+                }
+
+            });
         }
     }
 

@@ -8,7 +8,9 @@
 
     datacontext.$inject = ['common', 'config', 'entityManagerFactory', 'model','resources'];
 
-    function datacontext(common, config,emFactory, model, resources) {
+    function datacontext(common, config, emFactory, model, resources) {
+        var $q = common.$q;
+
         var entityNames = model.entityNames;
         var events = config.events;
         var getLogFn = common.logger.getLogFn;
@@ -16,15 +18,38 @@
         var logError = getLogFn(serviceId, 'error'); //error
         var logSuccess = getLogFn(serviceId, 'success');
         var manager = emFactory.newManager();
+        var currentUser = null;                // retrieved on prime
         var primePromise = undefined;
-        var $q = common.$q;
+
+        var exceptionalResources = {
+            lookups: 'Lookups'
+        };
+
+        var storeMeta = {
+            isLoaded: {
+                // will be populated with: entityName: false;
+            }
+        };
+
+        var entityNamesForResources = {
+            'Drinks': entityNames.drink,
+            'Ingredients': entityNames.ingredient
+        };
+
+        var resourcesForEntityNames = {
+            // will be the inverse of entityNamesForResources
+        };
 
         var service = {
             cancel: cancel,
+            createEntity: createEntity,
             getDrinks: getDrinks,
+            getIngredients: getIngredients,
             getPeople: getPeople,
             getMessageCount: getMessageCount,
             getDrinkById: getDrinkById,
+            lookupCachedData: undefined, // assigned in getLookups
+            markDeleted: markDeleted,
             prime: prime,
             save: save
         };
@@ -34,7 +59,23 @@
         return service;
 
         function init() {
+            initResourceEntityMap();
+            initStoreMeta();
             onHasChangesChanged();
+            setupEventForEntityCreated();
+        }
+
+        function initResourceEntityMap() {
+            for (var _resource in entityNamesForResources) {
+                var _entityName = entityNamesForResources[_resource];
+                resourcesForEntityNames[_entityName] = _resource;
+            }
+        }
+
+        function initStoreMeta() {
+            for (var entityName in entityNames) {
+                storeMeta.isLoaded[name] = false;
+            }
         }
 
         function cancel() {
@@ -43,6 +84,33 @@
             }
             manager.rejectChanges();
             logSuccess('Canceled changes', null, true);
+        }
+
+        function createEntity(entityName) {
+            return manager.createEntity(entityName);
+        }
+
+        function interceptEntityCreation(creationArgs) {
+            var entity = creationArgs.entity;
+            entity.submitter = currentUser;
+            entity.createdDateTime = Date();
+        }
+
+        function getLookups() {
+            return _getEntities(null, exceptionalResources.lookups)
+                .then(success, _queryFailed);
+
+            function success(data) {
+                log('Retrieved [Lookups]', data, true);
+                return true;
+            }
+        }
+
+        function setLookups() {
+            currentUser = _getEntitiesLocal(entityNames.user, entityNames.user)[0];
+            service.lookupCachedData = {
+                measurementTypes: _getEntitiesLocal(entityNames.measurementType, entityNames.measurementType)
+            };
         }
 
         function getMessageCount() { return $q.when(72); }
@@ -59,12 +127,12 @@
             ];
             return $q.when(people);
         }
-
+        
         function getDrinkById(id, forceRemote) {
             var entityName = entityNames.drink;
             
             return manager.fetchEntityByKey(entityName, id, !forceRemote)
-                .then(querySucceded, queryFailed);
+                .then(querySucceded, _queryFailed);
 
             function querySucceded(data) {
                 if (!data.entity) {
@@ -80,15 +148,46 @@
         }
 
         function getDrinks(forceRefresh) {
-            return breeze.EntityQuery.from('Drinks')
-                .using(manager)
-                .execute()
-                .then(querySucceded, queryFailed);
+            return getEntities(entityNames.drink, forceRefresh);
+        }
+
+        function getEntities(entityName, forceRefresh) {
+            var fromCache = (!forceRefresh && _areItemsLoaded(entityName));
+
+            var resource = _resourceForEntityName(entityName);
+            if (fromCache) {
+                return getEntitiesLocal(entityName);
+            }
+            
+            return _getEntities(entityName, resource)
+                    .then(querySucceded, _queryFailed);
 
             function querySucceded(data) {
-                log('Retrieved [Drinks]', data, true);
+                log(String.format('Retrieved [{0}] from server', resource), data, true);
+                _areItemsLoaded(entityName, true);
                 return data.results;
             }
+        }
+
+        function getEntitiesLocal(entityName, resource) {
+            resource = _resourceForEntityName(entityName, resource);
+
+            var entities = _getEntitiesLocal(entityName, resource);
+            return $q.when(entities)
+                .then(querySucceded, _queryFailed);
+
+            function querySucceded(results) {
+                log(String.format('Retrieved [{0}] from cache', resource), results, true);
+                return results;
+            }
+        }
+
+        function getIngredients(forceRefresh) {
+            return getEntities(entityNames.ingredient, forceRefresh);
+        }
+        
+        function markDeleted(entity) {
+            entity.entityAspect.setDeleted();
         }
 
         function onHasChangesChanged() {
@@ -101,12 +200,14 @@
         function prime() {
             if (primePromise) return primePromise;
 
-            primePromise = $q.all([manager.fetchMetadata(function() { log('Retrieved metadata!', true); })])
-                .then(extendMetadata);
+            primePromise = $q.all([getLookups()]).then(function() {
+                extendMetadata();
+            });
 
             return primePromise.then(success);
 
             function success() {
+                setLookups();
                 log('Primed the data', true);
             }
 
@@ -117,28 +218,32 @@
             }
 
             function registerResourceNames(metadataStore) {
-                var drinkType = metadataStore.getEntityType(entityNames.drink);
-                var drinkResourceName = 'Drinks';
-
-                set(drinkResourceName, drinkType);  
-
                 var types = metadataStore.getEntityTypes();
 
                 types.forEach(function (type) {
                     if (type instanceof breeze.EntityType) {
+                        if (type.baseEntityType) {
+                            // If it is a subtype, its resource won't automatically be set
+                            set(pluarlize(type.shortName), type);
+                        }
                         set(type.shortName, type);
                     }
-                })
+                });
 
                 function set(resourceName, entityType) {
                     metadataStore.setEntityTypeForResourceName(resourceName, entityType);
                 }
-            }
-        }
 
-        function queryFailed(error) {
-            var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
-            logError(msg, error);
+                function pluarlize(singular) {
+                    var plural;
+                    if (singular.slice(-1) === 'y') {
+                        plural = singular.substr(0, -1) + 'ies';
+                    } else {
+                        plural = singular + 's';
+                    }
+                    return plural;
+                }
+            }
         }
 
         function save() {
@@ -156,6 +261,56 @@
                 logError(msg, error);
                 throw error;
             }
+        }
+
+        function setupEventForEntityCreated() {
+            manager.entityChanged.subscribe(function(changeArgs) {
+                var entityAction = changeArgs.entityAction;
+                if (entityAction === breeze.EntityAction.EntityStateChange && entityAction.isAttach()) {
+                    interceptEntityCreation(changeArgs);
+                }
+            });
+        }
+
+        function _areDrinksLoaded(value) {
+            return _areItemsLoaded(entityNames.drink, value);
+        }
+
+        function _areTagsLoaded(value) {
+            return _areItemsLoaded(entityNames.tag, value);
+        }
+
+        function _areItemsLoaded(key, value) {
+            if (value === undefined) {
+                return storeMeta.isLoaded[key]; // Get
+            }
+
+            return storeMeta.isLoaded[key] = value; // set
+        }
+
+        function _getEntities(entityName, resource) {
+            resource = _resourceForEntityName(entityName, resource);
+            return breeze.EntityQuery.from(resource)
+                .using(manager)
+                .execute();
+        }
+
+        function _getEntitiesLocal(entityName, resource) {
+            resource = _resourceForEntityName(entityName, resource);
+            var entities = breeze.EntityQuery
+                .from(resource)
+                .using(manager)
+                .executeLocally();
+            return entities;
+        }
+
+        function _queryFailed(error) {
+            var msg = config.appErrorPrefix + 'Error retrieving data.' + error.message;
+            logError(msg, error);
+        }
+
+        function _resourceForEntityName(entityName, resource) {
+            return resource || resourcesForEntityNames[entityName];
         }
     }
 })();

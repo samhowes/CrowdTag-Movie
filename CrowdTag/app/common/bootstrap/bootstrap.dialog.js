@@ -3,12 +3,13 @@
 
     var bootstrapModule = angular.module('common.bootstrap', ['ui.bootstrap']);
 
-    bootstrapModule.factory('bootstrap.dialog', ['$modal', '$templateCache', modalDialog]);
+    bootstrapModule.factory('bootstrap.dialog', ['$modal', '$q', '$templateCache', modalDialog]);
 
-    function modalDialog($modal, $templateCache) {
+    function modalDialog($modal, $q, $templateCache) {
         var service = {
             deleteDialog: deleteDialog,
-            confirmationDialog: confirmationDialog
+            confirmationDialog: confirmationDialog,
+            entityCreatorDialog: entityCreatorDialog
         };
 
         $templateCache.put('modalDialog.tpl.html', 
@@ -34,6 +35,48 @@
             var msg = 'Delete ' + itemName + '?';
 
             return confirmationDialog(title, msg);
+        }
+
+        function entityCreatorDialog(entity, entityName, data) {
+
+            var modalOptions = {
+                templateUrl: String.format('/app/common/bootstrap/{0}Dialog.html', entityName),
+                controller: EntityCreator,
+                keyboard: true,
+                resolve: {
+                    data: function () {
+                        var promiseList = [];
+                        for (var prop in data) {
+                            var promise = $q.when(data[prop])
+                                .then(set(data,prop));
+                            promiseList.push(promise);
+                        }
+                        return $q.all(promiseList)
+                            .then(function(promise) {
+                                return data;
+                            });
+
+                        function set(object, prop) {
+                            return function(results) {
+                                object[prop] = results;
+                            }
+                        }
+                    },
+                    entity: function () {
+                        return entity;
+                    },
+                    options: function() {
+                        return {
+                            title: 'Add ingredient',
+                            message: 'Select an ingredient to add',
+                            okText: 'Save & Close',
+                            cancelText: 'Cancel'
+                        };
+                    }
+                }
+            };
+
+            return $modal.open(modalOptions).result;
         }
 
         function confirmationDialog(title, msg, okText, cancelText) {
@@ -67,4 +110,18 @@
             $scope.ok = function () { $modalInstance.close('ok'); };
             $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
         }];
+
+    EntityCreator.$inject = ['$scope', '$modalInstance', 'data', 'entity', 'options'];
+
+    function EntityCreator($scope, $modalInstance, data, entity, options) {
+        $scope.title = options.title || 'Title';
+        $scope.message = options.message || '';
+        $scope.okText = options.okText || 'OK';
+        $scope.cancelText = options.cancelText || 'Cancel';
+        $scope.ok = function() { $modalInstance.close('ok'); };
+        $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+
+        $scope.entity = entity;
+        $scope.data = data;
+    }
 })();

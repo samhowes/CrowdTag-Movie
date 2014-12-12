@@ -7,14 +7,17 @@
         .module('app')
         .controller(controllerId, drinkDetail);
 
-    drinkDetail.$inject = ['$location', '$scope', '$routeParams', '$window', 'common', 'config', 'datacontext'];
+    drinkDetail.$inject = ['$location', '$scope', '$routeParams', '$window', 'bootstrap.dialog', 'common', 'config', 'datacontext', 'model'];
 
-    function drinkDetail($location, $scope, $routeParams, $window, common, config, datacontext) {
+    function drinkDetail($location, $scope, $routeParams, $window, bsDialog, common, config, datacontext, model) {
         /* jshint validthis:true */
         var vm = this;
         var logError = common.logger.getLogFn(controllerId, 'error');
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
+        var lookups = datacontext.lookupCachedData; // todo: Create this
+        var entityNames = model.entityNames;
 
+        vm.addIngredient = addIngredient;
         vm.goBack = goBack;
         vm.cancel = cancel;
         vm.canSave = canSave();
@@ -33,7 +36,32 @@
 
         function activate() {
             onHasChanges();
+            onDestroy();
             common.activateController([getRequestedDrink()], controllerId);
+        }
+
+        function addIngredient() {
+
+            var entityName = entityNames.ingredientApplication;
+            var entity = datacontext.createEntity(entityName);
+
+            var data = {
+                ingredients: datacontext.getIngredients(),
+                lookups: {
+                    measurementTypes: lookups.measurementTypes
+                }
+            };
+
+            return bsDialog.entityCreatorDialog(entity, entityName, data)
+                .then(success, failed);
+
+            function success() {
+                entity.drink = vm.drink;
+            }
+
+            function failed() {
+                datacontext.markDeleted(entity);
+            }
         }
 
         function cancel() {
@@ -70,6 +98,12 @@
         }
 
         function gotoDrinks() { $location.path('/drinks'); }
+
+        function onDestroy() {
+            $scope.$on('$destroy', function() {
+                datacontext.cancel();
+            });
+        }
 
         function onHasChanges() {
             $scope.$on(config.events.hasChangesChanged,

@@ -8,14 +8,14 @@ namespace CrowdTag.DTO
 		[Required]
 		public decimal? Amount { get; set; }
 
-		[Required]
-		public MeasurementTypeEnum? MeasurementType { get; set; }
+		//[Required]
+		//public MeasurementTypeEnum? MeasurementType { get; set; }
 
 
 		public IngredientDTO(IngredientApplication entity) 
 		{
 			this.Amount = entity.Amount;
-			this.MeasurementType = entity.MeasurementType;
+			//this.MeasurementType = entity.MeasurementType;
 		}
 
 		public IngredientDTO() : base() { }
@@ -23,7 +23,7 @@ namespace CrowdTag.DTO
 		public void UpdateEntity(ref IngredientApplication entity) 
 		{
 			entity.Amount = this.Amount;
-			entity.MeasurementType = this.MeasurementType;
+			//entity.MeasurementType = this.MeasurementType;
 		}
 
 	}

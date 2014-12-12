@@ -38,6 +38,8 @@ namespace CrowdTag.DataAccess
 
         public DbSet<TagApplication> TagApplications { get; set; }
 
+        public DbSet<MeasurementType> MeasurementTypes { get; set; }
+
         
         
         //Future improvement:
