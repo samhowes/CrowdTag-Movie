@@ -43,7 +43,7 @@
                                 <h5>Drinks</h5>
                                 <div>
                                     <ul>
-                                        <li ng-repeat="drink in vm.ingredient.drinks">{{drink.name}}</li>
+                                        <li ng-repeat="r in vm.ingredient.recipes"><a href="#/drinks/{{r.drink.id}}">{{r.drink.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>

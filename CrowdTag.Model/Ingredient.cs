@@ -8,5 +8,6 @@ namespace CrowdTag.Model
 {
     public class Ingredient : TagBase
     {
+        public virtual ICollection<IngredientApplication> Recipes { get; set; } 
     }
 }

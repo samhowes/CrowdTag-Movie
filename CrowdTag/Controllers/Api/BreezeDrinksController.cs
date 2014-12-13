@@ -40,6 +40,7 @@ namespace CrowdTag.Controllers.Api
         {
             return _contextProvider.Context.Ingredients
                 .AsQueryable()
+                .Include(i => i.Recipes.Select(r => r.Drink))
                 .Include(i => i.Category);
         }
 
