@@ -163,19 +163,19 @@ namespace CrowdTag.DataAccess
                 {
                     Name = "Genre",
                     Description = "Fruity or Manly?",
-                    Tags = genres.Select(i => new Tag {Name = i}).ToList()
+                    Tags = genres.Select(i => (TagBase)new Tag {Name = i}).ToList()
                 },
                 new TagCategory
                 {
                     Name = "Classification",
                     Description = "The type of the drink, Martini or Shooter?",
-                    Tags = classifications.Select(i => new Tag {Name = i}).ToList()
+                    Tags = classifications.Select(i => (TagBase)new Tag {Name = i}).ToList()
                 },
                 new TagCategory
                 {
                     Name = "Usage",
                     Description = "A possible way to consume the drink - on the rocks, or frozen?",
-                    Tags = usages.Select(i => new Tag {Name = i}).ToList()
+                    Tags = usages.Select(i => (TagBase)new Tag {Name = i}).ToList()
                 }
             };
 

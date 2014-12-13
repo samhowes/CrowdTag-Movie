@@ -9,7 +9,7 @@ namespace CrowdTag.DataAccess
 		private TaggedItemRepository _taggedItemRepository;
 		private Repository<User> _userRepository;
 		private TagCategoryRepository _tagCategoryRepository;
-		private UserAddedItemRepository<Tag> _tagRepository;
+		private UserAddedItemRepository<TagBase> _tagRepository;
         private UserAddedItemRepository<TagApplication> _tagApplicationRepository;
 
 		public TaggedItemRepository TaggedItemRepository
@@ -22,9 +22,9 @@ namespace CrowdTag.DataAccess
 			get { return _tagCategoryRepository ?? (_tagCategoryRepository = new TagCategoryRepository(_dbContext)); }
 		}
 
-		public UserAddedItemRepository<Tag> TagRepository
+		public UserAddedItemRepository<TagBase> TagRepository
 		{
-			get { return _tagRepository ?? (_tagRepository = new UserAddedItemRepository<Tag>(_dbContext)); }
+			get { return _tagRepository ?? (_tagRepository = new UserAddedItemRepository<TagBase>(_dbContext)); }
 		}
 
 		public Repository<User> UserRepository

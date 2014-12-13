@@ -17,7 +17,7 @@ namespace CrowdTag
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			Database.SetInitializer(new TagInitializer());
+			//Database.SetInitializer(new TagInitializer());
         }
     }
 }

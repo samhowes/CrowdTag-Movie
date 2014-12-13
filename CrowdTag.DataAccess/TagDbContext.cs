@@ -32,7 +32,7 @@ namespace CrowdTag.DataAccess
 
         public DbSet<IngredientApplication> IngredientApplications { get; set; }
 
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<TagBase> Tags { get; set; }
 
         public DbSet<TagCategory> TagCategories { get; set; }
 
