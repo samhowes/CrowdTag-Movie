@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CrowdTag.Model
 {
-    public class Ingredient : Tag
+    public class Ingredient : TagBase
     {
     }
 }

@@ -18,7 +18,7 @@ namespace CrowdTag.DTO
             this.Id = entity.Id;
         }
 
-        public TagDTO(Tag entity)
+        public TagDTO(TagBase entity)
             : base(entity)
         {
             this.Name = entity.Name;
@@ -27,7 +27,7 @@ namespace CrowdTag.DTO
 
 
 
-        public new void UpdateEntity(ref Tag entity)
+        public new void UpdateEntity(ref TagBase entity)
         {
             entity.Name = this.Name;
         }

@@ -50,7 +50,7 @@ namespace CrowdTag.Model
 		//public virtual UserRank Rank { get; set; }
 		public virtual ICollection<TagApplication> TagApplications { get; set; }
 		public virtual ICollection<TaggedItem> Movies { get; set; }
-		public virtual ICollection<Tag> Tags { get; set; }
+		public virtual ICollection<TagBase> Tags { get; set; }
 		//public virtual ICollection<Vote> Votes { get; set; }
 		
 	}

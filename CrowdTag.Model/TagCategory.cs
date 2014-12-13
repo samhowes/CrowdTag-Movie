@@ -10,6 +10,6 @@ namespace CrowdTag.Model
 
 		public string Description { get; set; }
 
-		public virtual ICollection<Tag> Tags { get; set; }
+		public virtual ICollection<TagBase> Tags { get; set; }
 	}
 }

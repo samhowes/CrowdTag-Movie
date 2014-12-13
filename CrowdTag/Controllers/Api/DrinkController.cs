@@ -275,7 +275,7 @@ namespace CrowdTag.Controllers.Api
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var entity = new Tag();
-            dto.UpdateEntity(ref entity);
+            //dto.UpdateEntity(ref entity);
             
             entity.CategoryId = categoryId;
 
@@ -290,7 +290,7 @@ namespace CrowdTag.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            Tag entity = dataContext.TagRepository.Update(tagId);
+            TagBase entity = dataContext.TagRepository.Update(tagId);
             dto.UpdateEntity(ref entity);
 
             dataContext.SaveChanges();
