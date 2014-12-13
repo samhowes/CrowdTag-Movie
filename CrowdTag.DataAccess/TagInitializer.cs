@@ -14,6 +14,11 @@ namespace CrowdTag.DataAccess
         private User crowdTagBot;
         private readonly DateTime now = DateTime.Now;
 
+        public TagInitializer()
+        {
+            throw new InvalidOperationException("Migrations has been enabled, don't use an initializer!");
+        }
+
         protected override void Seed(TagDbContext tagContext)
         {
             AddUsers(tagContext);
