@@ -14,7 +14,7 @@
         var vm = this;
         var logError = common.logger.getLogFn(controllerId, 'error');
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
-        var lookups = datacontext.lookupCachedData; // todo: Create this
+        var lookups = datacontext.lookupCachedData;
         var entityNames = model.entityNames;
 
         vm.addIngredient = addIngredient;

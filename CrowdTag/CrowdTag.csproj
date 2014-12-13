@@ -270,6 +270,10 @@
     <Content Include="app\config.route.js" />
     <Content Include="app\dashboard\dashboard.html" />
     <Content Include="app\dashboard\dashboard.js" />
+    <Content Include="app\ingredients\ingredientDetail.html" />
+    <Content Include="app\ingredients\ingredientDetail.js" />
+    <Content Include="app\ingredients\ingredients.html" />
+    <Content Include="app\ingredients\ingredients.js" />
     <Content Include="app\drinks\drinkDetail.html" />
     <Content Include="app\drinks\drinkDetail.js" />
     <Content Include="app\drinks\drinks.html" />

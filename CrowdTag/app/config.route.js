@@ -62,12 +62,29 @@
                     settings: {}
                 }
             }, {
+                url: '/ingredients',
+                config: {
+                    title: 'ingredients',
+                    templateUrl: 'app/ingredients/ingredients.html',
+                    settings: {
+                        nav: 3,
+                        content: '<i class="fa fa-lemon-o"></i> Ingredients'
+                    }
+                }
+            }, {
+                url: '/ingredients/:id',
+                config: {
+                    title: 'ingredient',
+                    templateUrl: 'app/ingredients/ingredientDetail.html',
+                    settings: {}
+                }
+            }, {
                 url: '/admin',
                 config: {
                     title: 'admin',
                     templateUrl: 'app/admin/admin.html',
                     settings: {
-                        nav: 3,
+                        nav: 4,
                         content: '<i class="fa fa-lock"></i> Admin'
                     }
                 }

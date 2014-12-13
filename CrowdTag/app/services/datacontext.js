@@ -43,8 +43,10 @@
         var service = {
             cancel: cancel,
             createEntity: createEntity,
+            createIngredient:createIngredient,
             getDrinks: getDrinks,
             getIngredients: getIngredients,
+            getIngredientById: getIngredientById,
             getPeople: getPeople,
             getMessageCount: getMessageCount,
             getDrinkById: getDrinkById,
@@ -84,6 +86,14 @@
             }
             manager.rejectChanges();
             logSuccess('Canceled changes', null, true);
+        }
+
+        function createDrink() {
+            return createEntity(entityNames.drink);
+        }
+
+        function createIngredient() {
+            return createEntity(entityNames.ingredient);
         }
 
         function createEntity(entityName) {
@@ -180,6 +190,25 @@
             return getEntities(entityNames.ingredient, forceRefresh);
         }
         
+        function getIngredientById(id, forceRemote) {
+            var entityName = entityNames.ingredient;
+
+            return manager.fetchEntityByKey(entityName, id, !forceRemote)
+                .then(querySucceded, _queryFailed);
+
+            function querySucceded(data) {
+                if (!data.entity) {
+                    logError('Could not find [' + entityName + '] id:' + id, null, true);
+                }
+
+                if (data.fromCache) {
+                    logSuccess('Retrieved [' + entityName + '] id: ' + id + ' from cache.', data.entity, true);
+                }
+
+                return data.entity;
+            }
+        }
+
         function interceptEntityCreation(creationArgs) {
             var entity = creationArgs.entity;
             entity.submitter = currentUser;
