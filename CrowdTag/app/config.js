@@ -75,7 +75,7 @@
     //#endregion
 
     app.run(['common', function(common) {
-        common.installStringFormat();
+        common.initExtensions();
     }]);
 
 })();

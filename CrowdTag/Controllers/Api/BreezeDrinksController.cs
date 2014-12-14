@@ -49,7 +49,13 @@ namespace CrowdTag.Controllers.Api
         {
             var measurementTypes = _contextProvider.Context.MeasurementTypes.AsQueryable();
             var users = _contextProvider.Context.Users.AsQueryable();
-            return new {measurementTypes, users};
+
+            var ingredientCategories =
+                _contextProvider.Context.TagCategories.Where(tc => tc.Tags.OfType<Ingredient>().Any());
+
+            var tagCategories = _contextProvider.Context.TagCategories.AsQueryable();
+
+            return new {measurementTypes, users, ingredientCategories, tagCategories};
         }
 
         [HttpPost, Route("SaveChanges")]

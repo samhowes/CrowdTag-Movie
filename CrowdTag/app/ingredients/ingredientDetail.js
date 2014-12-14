@@ -27,6 +27,8 @@
         vm.deleteIngredient = deleteIngredient;
         vm.hasChanges = false;
         vm.ingredient = undefined;
+        vm.categories = undefined;          // set in initLookups();
+        vm.processChange = processChange;
         vm.title = controllerId;
 
         Object.defineProperty(vm, 'canSave', {
@@ -38,6 +40,7 @@
         function activate() {
             onHasChanges();
             onDestroy();
+            initLookups();
             common.activateController([getRequestedIngredient()], controllerId);
         }
 
@@ -69,7 +72,32 @@
             goBack();
         }
 
-        function canSave() {return vm.hasChanges && !vm.isSaving;}
+        function canSave() { return vm.hasChanges && !vm.isSaving; }
+
+        function createNewCategory() {
+            var entityName = entityNames.ingredientCategory;
+            var entity = datacontext.createEntity(entityName);
+
+            var options = {
+                title: 'Create category',
+                message: 'Choose a name for the category',
+                okText: 'Save & Close',
+                cancelText: 'Cancel'
+            };
+
+            return bsDialog.entityCreatorDialog(entity, entityName, null, options)
+                .then(success, failed);
+            
+            function success() {
+                datacontext.save([entity]);
+                datacontext.setLookups();
+                initLookups();
+            }
+
+            function failed() {
+                datacontext.markDeleted(entity);
+            }
+        }
 
         function deleteIngredient() {
             //TODO fill this in
@@ -86,6 +114,7 @@
             return datacontext.getIngredientById(val)
                 .then(function(data) {
                     vm.ingredient = data.entity || data;
+                    vm.ingredient.categoryId = vm.ingredient.categoryId || 0;
                     return vm.ingredient;
                 }, function(error) {
                     logError('Unable to get the ingredient: ' + val);
@@ -100,6 +129,11 @@
 
         function gotoIngredients() { $location.path('/ingredients'); }
 
+        function initLookups() {
+            lookups = datacontext.lookupCachedData;
+            vm.categories = lookups.tagCategories;
+        }
+
         function onDestroy() {
             $scope.$on('$destroy', function() {
                 datacontext.cancel();
@@ -111,6 +145,13 @@
                 function(event, data) {
                     vm.hasChanges = data.hasChanges;
                 });
+        }
+
+        function processChange(newValue) {
+            if (newValue.isCreateNew) {
+                vm.ingredient.categoryId = vm.ingredient.entityAspect.originalValues.categoryId || 0;
+                return createNewCategory();
+            }
         }
 
         //function removeIngredient(ingredientApplication) {

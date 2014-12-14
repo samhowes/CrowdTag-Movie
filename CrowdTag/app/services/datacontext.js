@@ -20,6 +20,7 @@
         var manager = emFactory.newManager();
         var currentUser = null;                // retrieved on prime
         var primePromise = undefined;
+        var unmappedEntityProperties = model.unmappedEntityProperties;
 
         var exceptionalResources = {
             lookups: 'Lookups'
@@ -53,7 +54,8 @@
             lookupCachedData: undefined, // assigned in getLookups
             markDeleted: markDeleted,
             prime: prime,
-            save: save
+            save: save,
+            setLookups:setLookups
         };
 
         init();
@@ -101,19 +103,38 @@
         }
 
         function getLookups() {
-            return _getEntities(null, exceptionalResources.lookups)
+            return breeze.EntityQuery
+                .from(exceptionalResources.lookups)
+                .using(manager)
+                .execute()
                 .then(success, _queryFailed);
 
             function success(data) {
                 log('Retrieved [Lookups]', data, true);
+
+                var lookups = data.results[0];
+
+                lookups.ingredientCategories.forEach(function(ic) {
+                    ic.isIngredientCategory = true;
+                });
+
+                model.createNullos(manager);
+
+
                 return true;
             }
         }
 
         function setLookups() {
-            currentUser = _getEntitiesLocal(entityNames.user, entityNames.user)[0];
+            currentUser = _getEntitiesLocal(entityNames.user)[0];
+
+            var predicate = breeze.Predicate.create(unmappedEntityProperties.isIngredientCategory, '==', true);
+            var order = '_order, name';
+
             service.lookupCachedData = {
-                measurementTypes: _getEntitiesLocal(entityNames.measurementType, entityNames.measurementType)
+                measurementTypes: _getEntitiesLocal(entityNames.measurementType),
+                ingredientCategories: _getEntitiesLocal(entityNames.ingredientCategory, order, predicate),
+                tagCategories: _getEntitiesLocal(entityNames.tagCategory, order)
             };
         }
 
@@ -158,30 +179,28 @@
         function getEntities(entityName, forceRefresh) {
             var fromCache = (!forceRefresh && _areItemsLoaded(entityName));
 
-            var resource = _resourceForEntityName(entityName);
             if (fromCache) {
                 return getEntitiesLocal(entityName);
             }
             
-            return _getEntities(entityName, resource)
+            return _getEntities(entityName)
                     .then(querySucceded, _queryFailed);
 
             function querySucceded(data) {
-                log(String.format('Retrieved [{0}] from server', resource), data, true);
+                log(String.format('Retrieved [{0}] from server', String.pluralize(entityName)), data, true);
                 _areItemsLoaded(entityName, true);
                 return data.results;
             }
         }
 
-        function getEntitiesLocal(entityName, resource) {
-            resource = _resourceForEntityName(entityName, resource);
+        function getEntitiesLocal(entityName) {
 
-            var entities = _getEntitiesLocal(entityName, resource);
+            var entities = _getEntitiesLocal(entityName);
             return $q.when(entities)
                 .then(querySucceded, _queryFailed);
 
             function querySucceded(results) {
-                log(String.format('Retrieved [{0}] from cache', resource), results, true);
+                log(String.format('Retrieved [{0}] from cache', String.pluralize(entityName)), results, true);
                 return results;
             }
         }
@@ -213,6 +232,22 @@
             var entity = creationArgs.entity;
             entity.submitter = currentUser;
             entity.createdDateTime = Date();
+        }
+
+        // Forget certain changes by removing them from the entity's originalValues
+        // this function becomes unnecessary if breeze decides that 
+        // unmapped properties are not recorded in original values
+        //
+        // We do this so we can remove the isIngredientCategory properties from
+        // the originalValues of an entity. Otherwise, when the object's changes
+        // are canceled these values will also reset: isIngredientCategory will go
+        // from false to true, and force the controller to refetch the
+        // entity from the server.
+        function interceptPropertyChange(changeArgs) {
+            var changedProp = changeArgs.args.propertyName;
+            if (unmappedEntityProperties[changedProp]) {
+                delete changeArgs.entity.entityAspect.originalValues[changedProp];
+            }
         }
 
         function markDeleted(entity) {
@@ -253,7 +288,7 @@
                     if (type instanceof breeze.EntityType) {
                         if (type.baseEntityType) {
                             // If it is a subtype, its resource won't automatically be set
-                            set(pluarlize(type.shortName), type);
+                            set(String.pluralize(type.shortName), type);
                         }
                         set(type.shortName, type);
                     }
@@ -262,21 +297,11 @@
                 function set(resourceName, entityType) {
                     metadataStore.setEntityTypeForResourceName(resourceName, entityType);
                 }
-
-                function pluarlize(singular) {
-                    var plural;
-                    if (singular.slice(-1) === 'y') {
-                        plural = singular.substr(0, -1) + 'ies';
-                    } else {
-                        plural = singular + 's';
-                    }
-                    return plural;
-                }
             }
         }
 
-        function save() {
-            return manager.saveChanges()
+        function save(saveList) {
+            return manager.saveChanges(saveList)
                 .then(saveSucceeded, saveFailed);
 
             function saveSucceeded(result) {
@@ -318,17 +343,18 @@
             return storeMeta.isLoaded[key] = value; // set
         }
 
-        function _getEntities(entityName, resource) {
-            resource = _resourceForEntityName(entityName, resource);
+        function _getEntities(entityName) {
+            var resource = resourcesForEntityNames[entityName];
             return breeze.EntityQuery.from(resource)
                 .using(manager)
                 .execute();
         }
 
-        function _getEntitiesLocal(entityName, resource) {
-            resource = _resourceForEntityName(entityName, resource);
+        function _getEntitiesLocal(entityName, ordering, predicate) {
             var entities = breeze.EntityQuery
-                .from(resource)
+                .from(entityName)
+                .orderBy(ordering)
+                .where(predicate)
                 .using(manager)
                 .executeLocally();
             return entities;

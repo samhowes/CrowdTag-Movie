@@ -35,6 +35,12 @@
                                 <input data-ng-model="vm.ingredient.name"
                                        data-z-validate
                                        placeholder="Ingredient name" />
+                                
+                                <label>Category</label><br />
+                                <select ng-options="c.name for c in vm.categories"
+                                        data-ng-model="vm.ingredient.category"
+                                        ng-change="vm.processChange(vm.ingredient.category)"
+                                        data-z-validate></select>
                             </div>
                         </div>                        
 

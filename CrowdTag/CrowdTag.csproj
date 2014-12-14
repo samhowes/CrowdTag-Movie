@@ -261,6 +261,7 @@
     <Content Include="app\admin\admin.js" />
     <Content Include="app\app.js" />
     <Content Include="app\common\bootstrap\bootstrap.dialog.js" />
+    <Content Include="app\common\bootstrap\tagCategoryDialog.html" />
     <Content Include="app\common\bootstrap\ingredientApplicationDialog.html" />
     <Content Include="app\common\common.js" />
     <Content Include="app\common\logger.js" />

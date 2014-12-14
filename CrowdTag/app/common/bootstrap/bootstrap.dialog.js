@@ -37,7 +37,7 @@
             return confirmationDialog(title, msg);
         }
 
-        function entityCreatorDialog(entity, entityName, data) {
+        function entityCreatorDialog(entity, entityName, data, options) {
 
             var modalOptions = {
                 templateUrl: String.format('/app/common/bootstrap/{0}Dialog.html', entityName),
@@ -45,6 +45,7 @@
                 keyboard: true,
                 resolve: {
                     data: function () {
+                        if (!data) return {};
                         var promiseList = [];
                         for (var prop in data) {
                             var promise = $q.when(data[prop])
@@ -66,7 +67,7 @@
                         return entity;
                     },
                     options: function() {
-                        return {
+                        return options || {
                             title: 'Add ingredient',
                             message: 'Select an ingredient to add',
                             okText: 'Save & Close',
@@ -77,6 +78,8 @@
             };
 
             return $modal.open(modalOptions).result;
+
+            
         }
 
         function confirmationDialog(title, msg, okText, cancelText) {
@@ -111,9 +114,9 @@
             $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
         }];
 
-    EntityCreator.$inject = ['$scope', '$modalInstance', 'data', 'entity', 'options'];
+    EntityCreator.$inject = ['$scope', '$modalInstance', 'entity', 'options', 'data'];
 
-    function EntityCreator($scope, $modalInstance, data, entity, options) {
+    function EntityCreator($scope, $modalInstance, entity, options, data) {
         $scope.title = options.title || 'Title';
         $scope.message = options.message || '';
         $scope.okText = options.okText || 'OK';

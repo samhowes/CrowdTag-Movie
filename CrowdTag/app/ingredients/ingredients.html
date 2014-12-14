@@ -18,14 +18,14 @@
                 </div>
 
             </div>
-            <div class="row">
+            <div class="row" ng-repeat="category in vm.ingredientCategories">
                 <div class="widget wviolet">
-                    <div data-cc-widget-header title="{{vm.title}}"
-                         subtitle="{{vm.filteredIngredients.length}} / {{vm.ingredients.length}}"></div>
+                    <div data-cc-widget-header title="{{category.name}}"
+                         subtitle="{{category.tags}}"></div>
 
                     <div class="widget-content user">
                         <div class="padd list-flow"
-                             data-ng-repeat="i in vm.filteredIngredients"
+                             data-ng-repeat="i in category.tags"
                              data-ng-click="vm.gotoIngredient(i)">
 
                             <div class="user" title="Go to ingredient details">

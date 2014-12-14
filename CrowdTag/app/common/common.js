@@ -39,13 +39,22 @@
             activateController: activateController,
             createSearchThrottle: createSearchThrottle,
             debouncedThrottle: debouncedThrottle,
-            installStringFormat: installStringFormat,
+            initExtensions: initExtensions,
             isNumber: isNumber,
             logger: logger, // for accessibility
             textContains: textContains
         };
 
+        init();
+
         return service;
+
+        function init() {}
+
+        function initExtensions() {
+            installStringFormat();
+            installStringPluralize();
+        }
 
         function activateController(promises, controllerId) {
             return $q.all(promises).then(function (eventArgs) {
@@ -133,7 +142,20 @@
                     })
                 };
             }
-             
+        }
+
+        function installStringPluralize() {
+            if (String.pluralize) return;
+            
+            String.pluralize = function (singular) {
+                var plural;
+                if (singular.slice(-1) === 'y') {
+                    plural = singular.substr(0, -1) + 'ies';
+                } else {
+                    plural = singular + 's';
+                }
+                return plural;
+            }
         }
 
         function isNumber(val) {

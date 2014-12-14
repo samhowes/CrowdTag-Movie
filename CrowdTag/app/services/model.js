@@ -14,16 +14,25 @@
         var entityNames = {
             drink: 'Drink',
             tag: 'Tag',
+            tagCategory: 'TagCategory',
             tagApplication: 'TagApplication',
             ingredientApplication: 'IngredientApplication',
+            ingredientCategory: 'TagCategory',
             ingredient: 'Ingredient',
             measurementType: 'MeasurementType',
             user: 'User'
         };
 
+        var unmappedEntityProperties = {
+            isIngredientCategory: 'isIngredientCategory',
+            _order: '_order'
+        };
+
         var service = {
             configureMetadataStore: configureMetadataStore,
+            createNullos: createNullos,
             entityNames: entityNames,
+            unmappedEntityProperties: unmappedEntityProperties
         };
 
         return service;
@@ -31,8 +40,27 @@
         function configureMetadataStore(metadataStore) {
             registerDrink(metadataStore);
             registerIngredientApplication(metadataStore);
-            //metadataStore.setEntityTypeForResourceName('Drinks', entityNames.drink);
+            registerTagCategory(metadataStore);
+            //todo add validations for nullos
 
+            //metadataStore.setEntityTypeForResourceName('Drinks', entityNames.drink);
+        }
+
+        function createNullos(manager) {
+            var unchanged = breeze.EntityState.Unchanged;
+
+            createNullo(entityNames.ingredientCategory, {id:0, name: getDisplayName(entityNames.ingredientCategory), isIngredientCategory: true, _order: 0 });
+            createNullo(entityNames.ingredientCategory, {id:-2, name:'Create new category...', isIngredientCategory: true, isCreateNew:true, _order: 10 });
+
+
+            function createNullo(entityName, values) {
+                var initialValues = values || { name: getDisplayName(entityName) };
+                return manager.createEntity(entityName, initialValues, unchanged);
+            }
+
+            function getDisplayName(entityName) {
+                return ' [Select a ' + entityName.toLowerCase() + ']';
+            }
         }
 
         function registerDrink(metadataStore) {
@@ -74,6 +102,16 @@
                 }
 
             });
+        }
+
+        function registerTagCategory(metadataStore) {
+            metadataStore.registerEntityTypeCtor(entityNames.tagCategory, TagCategory);
+
+            function TagCategory() {
+                this.isIngredientCategory = false;
+                this._order = 1;
+                this.isCreateNew = false;
+            }
         }
     }
 

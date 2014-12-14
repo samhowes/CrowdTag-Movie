@@ -13,6 +13,7 @@
         /* jshint validthis:true */
         var vm = this;
         var log = common.logger.getLogFn(controllerId);
+        var lookups = datacontext.lookupCachedData;
         var keyCodes = config.keyCodes;
 
         //Bindables
@@ -21,6 +22,7 @@
         vm.search = search;      
         vm.ingredientSearch = '';
         vm.ingredients = [];
+        vm.ingredientCategories = lookups.ingredientCategories; //todo: only get non-nullos
         vm.filteredIngredients = [];
         vm.refresh = refresh;   
 
